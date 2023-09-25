@@ -19,9 +19,9 @@ public class Demo{
             console.readLine("Model Name: "),
             console.readLine("CPU: "));
         newDev.addKey(new Key(
-            console.readLine("Windows Key: "),
-            console.readLine("OfficeKey: "),
-            console.readLine("Software Key: "),
+            console.readLine("Windows Key (optional): "),
+            console.readLine("Office Key (optional): "),
+            console.readLine("Software Key (optional): "),
             console.readLine("Username: ")));
         newDev.addRam(new Ram(
             console.readLine("Ram Type: "),
