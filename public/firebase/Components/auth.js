@@ -25,7 +25,7 @@ const signUp = async () => {
     .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        alert(error.code + error.message);
+        alert(errorCode + errorMessage);
     })
 }
 
