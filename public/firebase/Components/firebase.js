@@ -11,5 +11,4 @@ export const firebaseConfig = {
   appId: "1:132311870048:web:c20eeee77a46ca67e2b105"
 };
 
-// console.log("FIREBASE.JS!!!!!")
 export const app = initializeApp(firebaseConfig);

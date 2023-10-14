@@ -20,43 +20,70 @@ const signUp = async () => {
     .then((userCredential) => { // SIGN IN SUCCESSFUL
         const user = userCredential.user;
         console.log(user);
-        alert("Created and signed in!");
+        alert("Your account " + user + " has been created");
     })
-    .catch((error) => {
+    .catch((error) => { // ON ERROR, ALERT MESSAGE TO USER
         const errorCode = error.code;
         const errorMessage = error.message;
-        alert(errorCode + errorMessage);
+        console.log(errorCode + " " + errorMessage);
+        if(errorMessage.localeCompare("Firebase: Error (auth/invalid-email).") == 0)
+        {
+            alert(email + " is not a valid email address\nPlease use a valid email address");
+        }
+        else if(errorMessage.localeCompare("Firebase: Password should be at least 6 characters (auth/weak-password).") == 0)
+        {
+            alert("Password is not at least 6 characters\nPlease input a valid password");
+        }
+        else if(errorMessage.localCompare("Firebase: Error (auth/missing-password).") == 0)
+        {
+            alert("Password is missing\nPlease input a valid password");
+        }
     })
-}
+};
 
 const login = async () => {
     const email = userEmail.value;
-    const password = userEmail.value;
+    const password = userPassword.value;
 
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => { // SIGN IN SUCCESSFUL
         const user = userCredential.user;
         console.log(user);
-        alert("Sign in successful!");
+        alert("User "+ email +" has been signed in");
     })
-    .catch((error) => {
+    .catch((error) => { // ON ERROR, ALERT MESSAGE TO USER
         const errorCode = error.code;
         const errorMessage = error.message;
-        alert(errorCode + errorMessage);
+        console.log(errorCode + " " + errorMessage);
+        if(errorMessage.localeCompare("Firebase: Error (auth/invalid-login-credentials).") == 0)
+        {
+            alert("Invalid login credentials\nPlease try again");
+        }
+        else if(errorMessage.localeCompare("Firebase: Error (auth/invalid-email).") == 0)
+        {
+            alert("Invalid email address\nPlease try again");
+        }
     })
-}
+};
 
 const logout = async () => {
-    signOut(auth)
-    .then(() => { // SIGN OUT SUCCESSFUL
-        alert("Sign out successful!");
-    })
-    .catch(() => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorCode + errorMessage);
-    })
-}
+    // const user = auth.currentUser;
+    // if(user)
+    // {
+        signOut(auth)
+        .then(() => { // SIGN OUT SUCCESSFUL
+            alert("Sign out successful!");
+        })
+        .catch(() => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode + " " + errorMessage);
+        })
+    // }
+    // else{
+    //     alert("No user is currently signed in");
+    // }
+};
 
 signUpButton.addEventListener('click', signUp);
 signInButton.addEventListener('click', login);
