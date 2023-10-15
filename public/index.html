@@ -7,6 +7,7 @@
       <script type="module" src="script/Components/firebase.js"></script>
       <script type="module" src="firebase/Components/auth.js"></script>
       <script type="module" src="firebase/Components/db.js"></script>
+      <!-- <script type="module" src="authContent.js"></script> -->
   </head>
   <body>
     <div id="app">
@@ -81,32 +82,5 @@
         <button id="signOutButton">Sign Out</button>
       </div>
     </div>
-    <script>
-      // event listeners to handle sign-in and sign-out actions
-      const loginContainer = document.getElementById("login-container");
-      const authenticatedContainer = document.getElementById("authenticated-container");
-      const signInButton = document.getElementById("signInButton");
-      const signUpButton = document.getElementById("signUpButton");
-      const signOutButton = document.getElementById("signOutButton");
-  
-      // shows the authenticated content and hide the login form
-      function showAuthenticatedContent() {
-        loginContainer.style.display = "none";
-        authenticatedContainer.style.display = "block";
-      }
-  
-      // shows the login form and hide the authenticated content
-      function showLoginForm() {
-        loginContainer.style.display = "block";
-        authenticatedContainer.style.display = "none";
-      }
-  
-      // event listeners
-      signInButton.addEventListener("click", showAuthenticatedContent);
-      signUpButton.addEventListener("click", showAuthenticatedContent);
-      signOutButton.addEventListener("click", showLoginForm);
-  
-      // can add more logic to show/hide based on user authentication status.
-    </script>
   </body>
 </html>

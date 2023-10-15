@@ -1,16 +1,15 @@
 import { app } from './firebase.js';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js';
 
-// console.log("AUTH.JS!!!!");
 const auth = getAuth(app);
 
 const userEmail = document.querySelector("#userEmail");
 const userPassword = document.querySelector("#userPassword");
-const form = document.querySelector("#form");
-const authenticate = document.querySelector("#authenticate");
 const signUpButton = document.querySelector("#signUpButton");
 const signInButton = document.querySelector("#signInButton");
 const signOutButton = document.querySelector("#signOutButton");
+const loginContainer = document.getElementById("login-container");
+const authenticatedContainer = document.getElementById("authenticated-container");
 
 const signUp = async () => {
     const email = userEmail.value;
@@ -88,6 +87,34 @@ const logout = async () => {
     //     alert("No user is currently signed in");
     // }
 };
+
+// shows the authenticated content and hide the login form
+const showAuthenticatedContent = () => {
+    loginContainer.style.display = "none";
+    authenticatedContainer.style.display = "block";
+    }
+    
+    // shows the login form and hide the authenticated content
+const showLoginForm = () => {
+    loginContainer.style.display = "block";
+    authenticatedContainer.style.display = "none";
+    }
+    
+
+const authState = async () => { // FIREBASE FUNCTION TO READ AUTHENTICATED STATE INTO CONDITIONAL
+    onAuthStateChanged(auth, user => {
+        if(user)
+        {
+            showAuthenticatedContent();
+        }
+        else
+        {
+            showLoginForm();
+        }
+    })
+}
+
+authState();
 
 signUpButton.addEventListener('click', signUp);
 signInButton.addEventListener('click', login);
