@@ -11,7 +11,7 @@
   <body>
     <div id="app">
       <script src="./routes.js"></script>
-      <div id="form">
+      <div id="login-container">
         <h2>Login</h2>
         <label for="userEmail">Email: </label>
         <input type="email" placeholder="Email" id="userEmail">
@@ -22,9 +22,9 @@
         <button id="signUpButton">Sign Up</button>
         <button id="signInButton">Sign In</button>
       </div>
-      <div id="authenticate">
+      <div id="authenticated-container" style="display: none;">
         <h3>YOU ARE NOW SIGNED IN!!</h3>
-
+        <!-- ... Your authenticated content fields ... -->
         <label for="searchBox">Search: </label>
         <input type="search" placeholder="Search for Client" id="searchBox">
         <br><br>
@@ -81,5 +81,32 @@
         <button id="signOutButton">Sign Out</button>
       </div>
     </div>
+    <script>
+      // event listeners to handle sign-in and sign-out actions
+      const loginContainer = document.getElementById("login-container");
+      const authenticatedContainer = document.getElementById("authenticated-container");
+      const signInButton = document.getElementById("signInButton");
+      const signUpButton = document.getElementById("signUpButton");
+      const signOutButton = document.getElementById("signOutButton");
+  
+      // shows the authenticated content and hide the login form
+      function showAuthenticatedContent() {
+        loginContainer.style.display = "none";
+        authenticatedContainer.style.display = "block";
+      }
+  
+      // shows the login form and hide the authenticated content
+      function showLoginForm() {
+        loginContainer.style.display = "block";
+        authenticatedContainer.style.display = "none";
+      }
+  
+      // event listeners
+      signInButton.addEventListener("click", showAuthenticatedContent);
+      signUpButton.addEventListener("click", showAuthenticatedContent);
+      signOutButton.addEventListener("click", showLoginForm);
+  
+      // can add more logic to show/hide based on user authentication status.
+    </script>
   </body>
 </html>
