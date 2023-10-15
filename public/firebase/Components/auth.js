@@ -20,7 +20,7 @@ const signUp = async () => {
     .then((userCredential) => { // SIGN IN SUCCESSFUL
         const user = userCredential.user;
         console.log(user);
-        alert("Your account " + user + " has been created");
+        alert("Your account " + email + " has been created");
     })
     .catch((error) => { // ON ERROR, ALERT MESSAGE TO USER
         const errorCode = error.code;
@@ -34,9 +34,13 @@ const signUp = async () => {
         {
             alert("Password is not at least 6 characters\nPlease input a valid password");
         }
-        else if(errorMessage.localCompare("Firebase: Error (auth/missing-password).") == 0)
+        else if(errorMessage.localeCompare("Firebase: Error (auth/missing-password).") == 0)
         {
             alert("Password is missing\nPlease input a valid password");
+        }
+        else if(errorMessage.localeCompare("Firebase: Error (auth/email-already-in-use).") == 0)
+        {
+            alert("Email is already in use\nPlease log in or use a new email address");
         }
     })
 };
