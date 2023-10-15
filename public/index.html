@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Techlog</title>
-      <script type="module" src="firebase/Components/firebase.js"></script>
+      <script type="module" src="script/Components/firebase.js"></script>
       <script type="module" src="firebase/Components/auth.js"></script>
       <script type="module" src="firebase/Components/db.js"></script>
+      <!-- <script type="module" src="authContent.js"></script> -->
   </head>
   <body>
     <div id="app">
       <script src="./routes.js"></script>
-      <div id="form">
+      <div id="login-container">
         <h2>Login</h2>
         <label for="userEmail">Email: </label>
         <input type="email" placeholder="Email" id="userEmail">
@@ -22,9 +23,9 @@
         <button id="signUpButton">Sign Up</button>
         <button id="signInButton">Sign In</button>
       </div>
-      <div id="authenticate">
+      <div id="authenticated-container" style="display: none;">
         <h3>YOU ARE NOW SIGNED IN!!</h3>
-
+        <!-- ... Your authenticated content fields ... -->
         <label for="searchBox">Search: </label>
         <input type="search" placeholder="Search for Client" id="searchBox">
         <br><br>
@@ -37,7 +38,6 @@
         <br><br>
         <button id="addClientButton">Add Client</button>
         <br><br>
-
 
         <label for="brand">Computer Brand: </label>
         <input type="text" placeholder="Brand" id="brand">
