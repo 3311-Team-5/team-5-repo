@@ -13,3 +13,4 @@ Features Implemented in Iteration 2:
   - Ability to open the web application
   - User Authentication by using Firebase
   - Connection to Firebase Realtime Database
+    - Users can add unique clients
