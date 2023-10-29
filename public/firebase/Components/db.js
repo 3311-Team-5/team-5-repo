@@ -3,6 +3,31 @@ import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com
 
 const db = getDatabase(app);
 
+const clientList = document.getElementById("Client-List");
+
+const displayClients = () => {
+    const dbRef = ref(getDatabase(app));
+
+    get(child(dbRef, "clients/"))
+        .then((snapshot) => {
+            const clientsData = snapshot.val();
+            clientList.innerHTML = "";
+
+            for (const key in clientsData) {
+                const clientName = clientsData[key].client;
+
+                const listItem = document.createElement("li");
+                listItem.textContent = clientName;
+                clientList.appendChild(listItem);
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching clients: ", error);
+        });
+
+
+};
+
 const addClient = () => {
     const client = document.querySelector("#client").value;
     const dbRef = ref(getDatabase());
@@ -29,7 +54,9 @@ const addClient = () => {
                 client: client
             })
             .then(() => {
+                displayClients();
                 alert("Client " + client + " has been added!");
+                
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -37,15 +64,22 @@ const addClient = () => {
                 console.log(errorCode + " " + errorMessage);
             })
         }
+
+
     })
     .catch((error) => {
         console.log(error.code + " " + error.message);
     })
+  
 }
 
-// addDevice = (brand, model, cpu, winKey, offKey, softKey, username, ramType, ramAmt, ramSize, hdType, hdAmt, hdSize) => {
-//     db.ref()
-// }
 
+
+
+
+const addClientButton = document.getElementById("addClientButton");
 addClientButton.addEventListener('click', addClient);
-// addDeviceButton.addEventListener('click', addDevice);
+
+
+
+displayClients();
