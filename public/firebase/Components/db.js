@@ -2,9 +2,10 @@ import { app } from './firebase.js';
 import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
 
 const db = getDatabase(app);
-
 const clientList = document.getElementById("Client-List");
 
+
+//------------------------------------------------------------------------------------------------------------------------------
 const displayClients = () => {
     const dbRef = ref(getDatabase(app));
 
@@ -17,7 +18,14 @@ const displayClients = () => {
                 const clientName = clientsData[key].client;
 
                 const listItem = document.createElement("li");
-                listItem.textContent = clientName;
+                const button = document.createElement("button");
+                //listItem.textContent = clientName;
+                button.textContent = clientName;
+                button.addEventListener("click", () => {
+                    addLocation(clientName);
+                    //alert("Clicked on client: " +clientName);
+                })
+                listItem.appendChild(button);
                 clientList.appendChild(listItem);
             }
         })
@@ -27,7 +35,7 @@ const displayClients = () => {
 
 
 };
-
+//------------------------------------------------------------------------------------------------------------------------------
 const addClient = () => {
     const client = document.querySelector("#client").value;
     const dbRef = ref(getDatabase());
@@ -72,14 +80,41 @@ const addClient = () => {
     })
   
 }
+ //once a client button is clicked, function addLocation() will show List of alreadyLocations, and display an add location button, the added location will be attached to client
+    //once a client button is clicked function addLocation() give the option to add a Location to the client in the databse
+//------------------------------------------------------------------------------------------------------------------------------
 
-
+const addLocation = (clientName) => {
+    // Prompt the user to enter a location
+    const location = prompt(`Enter location for client ${clientName}:`);
+    if (location) {
+        const dbRef = ref(getDatabase()); // Corrected typo in getDatabase()
+        const clientsRef = ref(dbRef, 'clients/');
+        getKey(clientsRef, 'client', clientName) // Ensure you're getting the client key correctly
+            .then((clientKey) => {
+                if (clientKey) {
+                    const clientLocationRef = ref(clientsRef, `${clientKey}/location`);
+                    set(clientLocationRef, location)
+                        .then(() => {
+                            alert(`Location "${location}" added to client "${clientName}".`);
+                            // You can update the client list here to reflect the changes.
+                            displayClients();
+                        })
+                        .catch((error) => {
+                            console.error("Error adding location: ", error);
+                        });
+                } else {
+                    console.error(`Client "${clientName}" not found.`);
+                }
+            })
+            .catch((error) => {
+                console.error("Error getting client key: ", error);
+            });
+    }
+}
 
 
 
 const addClientButton = document.getElementById("addClientButton");
 addClientButton.addEventListener('click', addClient);
-
-
-
 displayClients();

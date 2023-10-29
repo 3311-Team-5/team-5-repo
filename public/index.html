@@ -7,6 +7,7 @@
       <script type="module" src="script/Components/firebase.js"></script>
       <script type="module" src="firebase/Components/auth.js"></script>
       <script type="module" src="firebase/Components/db.js"></script>
+      <link rel="stylesheet" type="text/css" href="smallUIFixes.css">  <!-- small UI changes -->
   </head>
   <body>
     <div id="app">
@@ -25,8 +26,9 @@
       <div id="authenticated-container" style="display: none;">
         <h3>Landing</h3>
         <h4>Clients:</h4>
-        
-        <ul id="Client-List"></ul>
+
+        <ul id="Client-List" class="Client-List"></ul>
+        <br><br>
         <!-- ... Your authenticated content fields ... -->
         <!-- <label for="searchBox">Search: </label>
         <input type="search" placeholder="Search for Client" id="searchBox">
