@@ -2,6 +2,37 @@ import { app } from './firebase.js';
 import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
 
 const db = getDatabase(app);
+const clientList = document.getElementById("Client-List");
+
+const displayClients = () => {
+  const dbRef = ref(getDatabase(app));
+
+  get(child(dbRef, "clients/"))
+      .then((snapshot) => {
+          const clientsData = snapshot.val();
+          clientList.innerHTML = "";
+
+          for (const key in clientsData) {
+              const clientName = clientsData[key].client;
+
+              const listItem = document.createElement("li");
+              const button = document.createElement("button");
+              //listItem.textContent = clientName;
+              button.textContent = clientName;
+              button.addEventListener("click", () => {
+                  addLocation(clientName); //check for function that passes in some sort of path
+                  //alert("Clicked on client: " +clientName);
+              })
+              listItem.appendChild(button);
+              clientList.appendChild(listItem);
+          }
+      })
+      .catch((error) => {
+          console.error("Error fetching clients: ", error);
+      });
+
+
+};
 
 const addClient = () => {
     const client = document.querySelector("#client").value;
@@ -29,7 +60,7 @@ const addClient = () => {
                 client: client
             })
             .then(() => {
-                displayClients();
+                // displayClients();
                 alert("Client " + client + " has been added!");
                 
             })
@@ -56,7 +87,7 @@ const addLocation = (clientName) => {
       return;
     }
   
-    const db = getDatabase(app);
+    const db = getDatabase(app); // SHOULD NOT NEED THIS LINE SINCE IT IS CALLED GLOBALLY
   
     const clientsRef = ref(db, 'clients');
   
