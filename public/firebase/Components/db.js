@@ -3,6 +3,9 @@ import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com
 
 const db = getDatabase(app);
 const clientList = document.getElementById("Client-List");
+const computerList = document.getElementById("Computer-List");
+const computerDetails = document.getElementById("computer-details");
+const authenticatedContainer = document.getElementById("authenticated-container");
 
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -35,6 +38,52 @@ const displayClients = () => {
 
 
 };
+//------------------------------------------------------------------------------------------------------------------------------
+const displayComputers = () => {
+  const db = getDatabase(app);
+
+  const dbRef = ref(getDatabase(app));
+
+  get(child(dbRef, "clients/"))
+      .then((snapshot) => {
+          const clientsData = snapshot.val();
+          computerList.innerHTML = ""; // Clear the computer list
+
+          for (const key in clientsData) {
+              const clientName = clientsData[key].client;
+
+              // Check if the client has locations
+              if (clientsData[key].locations) {
+                  for (const locationKey in clientsData[key].locations) {
+                      const location = clientsData[key].locations[locationKey];
+
+                      // Check if the location has computers
+                      if (location.computers) {
+                          for (const computerKey in location.computers) {
+                              const computer = location.computers[computerKey];
+                              const computerName = computer.name;
+
+                              const listItem = document.createElement("li");
+                              const button = document.createElement("button");
+                              button.textContent = `Client: ${clientName}, Location: ${location.name}, Computer: ${computerName}`;
+
+                              button.addEventListener("click", () => {
+                                showComputerDetails();
+                              })
+
+                              listItem.appendChild(button);
+                              computerList.appendChild(listItem);
+                          }
+                      }
+                  }
+              }
+          }
+      })
+      .catch((error) => {
+          console.error("Error fetching computers: ", error);
+      });
+};
+
 //------------------------------------------------------------------------------------------------------------------------------
 const addClient = () => {
     const client = document.querySelector("#client").value;
@@ -190,9 +239,21 @@ const addComputer = () => {
       });
   };
   
+const showComputerDetails = () => {
+  authenticatedContainer.style.display  = "none";
+  computerDetails.style.display = "block";
+  const homeButton = document.getElementById("#homeButton");
+}
+
+const returnHomeScreen = () => {
+  authenticatedContainer.style.display = "block";
+  computerDetails.style.display = "none";
+}
 
 const addClientButton = document.getElementById("addClientButton");
 addClientButton.addEventListener('click', addClient);
 const addComputerButton = document.getElementById("addComputerButton");
 addComputerButton.addEventListener('click', addComputer);
 displayClients();
+displayComputers();
+homeButton.addEventListener('click', returnHomeScreen);
