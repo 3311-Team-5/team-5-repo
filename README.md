@@ -9,8 +9,14 @@ How-To-Run:
   - Once the dependencies are downloaded, you can boot the server by running 'npm start"
   - The web application will then be available on your browser by going to "http://localhost:3001"
 
-Features Implemented in Iteration 2:
+Features Implemented
+
+Iteration 2:
   - Ability to open the web application
   - User Authentication by using Firebase
   - Connection to Firebase Realtime Database
     - Users can add unique clients
+
+Iteration 3:
+  - Adding locations for specific clients in the client list
+  - Inserting a device name under a client name and their location
