@@ -3,9 +3,8 @@ import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com
 
 const db = getDatabase(app);
 const clientList = document.getElementById("Client-List");
+const computerList = document.getElementById("comp-List");
 
-
-//------------------------------------------------------------------------------------------------------------------------------
 const displayClients = () => {
     const dbRef = ref(getDatabase(app));
 
@@ -32,10 +31,51 @@ const displayClients = () => {
         .catch((error) => {
             console.error("Error fetching clients: ", error);
         });
-
-
 };
-//------------------------------------------------------------------------------------------------------------------------------
+
+const displayComputers = () => {
+  const dbRef = ref(getDatabase(app));
+
+  get(child(dbRef, "clients/"))
+      .then((snapshot) => {
+          const clientsData = snapshot.val();
+          computerList.innerHTML = ""; // Clear the computer list
+
+          for (const key in clientsData) {
+              const clientName = clientsData[key].client;
+
+              // Check if the client has locations
+              if (clientsData[key].locations) {
+                  for (const locationKey in clientsData[key].locations) {
+                      const location = clientsData[key].locations[locationKey];
+
+                      // Check if the location has computers
+                      if (location.computers) {
+                          for (const computerKey in location.computers) {
+                              const computer = location.computers[computerKey];
+                              const computerName = computer.name;
+
+                              const listItem = document.createElement("li");
+                              const button = document.createElement("button");
+                              button.textContent = `Client: ${clientName}, Location: ${location.name}, Computer: ${computerName}`;
+                              //add an event listener for further functionality here if needed
+                              button.addEventListener("click", () => {
+                                window.location.href = "../../card.html";
+                              })
+                              // window.addEventListener("load", addCompAtt(clientName, location.name, computerName));
+                              listItem.appendChild(button);
+                              computerList.appendChild(listItem);
+                          }
+                      }
+                  }
+              }
+          }
+      })
+      .catch((error) => {
+          console.error("Error fetching computers: ", error);
+      });
+};
+
 const addClient = () => {
     const client = document.querySelector("#client").value;
     const dbRef = ref(getDatabase());
@@ -80,7 +120,7 @@ const addClient = () => {
     })
   
 }
-//once a client button is clicked function addLocation() give the option to add a Location to the client in the databse
+//once a client button is clicked function addLocation() give the option to add a Location to the client in the database
 //------------------------------------------------------------------------------------------------------------------------------
 const addLocation = (clientName) => {
     const locationName = prompt("Enter the location name:");
@@ -127,8 +167,7 @@ const addLocation = (clientName) => {
         console.error(`Error querying the database: ${error}`);
       });
   };
-//--------------------------------------------------------------------------------------
-//does not work
+
 const addComputer = () => {
     const computerName = document.querySelector("#computer").value;
     
@@ -159,7 +198,7 @@ const addComputer = () => {
         if (clientKey) {
           // The client exists, add the computer under the existing client and location
   
-          const clientLocationsRef = ref(db, `clients/${clientKey}/locations`);
+          // const clientLocationsRef = ref(db, `clients/${clientKey}/locations`);
           
   
           if (locationKey) {
@@ -170,6 +209,7 @@ const addComputer = () => {
             set(newComputerRef, {
               name: computerName,
               // Other properties specific to the computer
+              // NEED TO ADD COMPUTER DETAILS HERE
             })
               .then(() => {
                 // Computer added successfully
@@ -189,10 +229,24 @@ const addComputer = () => {
         console.error(`Error querying the database: ${error}`);
       });
   };
-  
 
+
+const addCompAtt = (client, locationName, comp) => {
+  console.log(comp);
+  const deviceName = document.getElementById("deviceName");
+  if(deviceName){
+    document.getElementById("deviceName").placeholder = "testing";
+    location.reload();
+  }else{
+    console.log("DOES NOT EXIST!!!!");
+  }
+}
+  
+  
 const addClientButton = document.getElementById("addClientButton");
 addClientButton.addEventListener('click', addClient);
 const addComputerButton = document.getElementById("addComputerButton");
 addComputerButton.addEventListener('click', addComputer);
+
 displayClients();
+displayComputers();

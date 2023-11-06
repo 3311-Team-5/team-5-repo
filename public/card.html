@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techlog</title>
+      <script type="module" src="script/Components/firebase.js"></script>
+      <!-- <script type="module" src="firebase/Components/db.js"></script> -->
+  </head>
+  <body>
+    <div id="cards">
+        <h3>CARD PAGE</h3>
+
+        <label for="deviceName">Device Name: </label>
+        <input type="text" placeholder="Name" id="deviceName">
+        <br><br>
+
+        <label for="brand">Computer Brand: </label>
+        <input type="text" placeholder="Brand" id="brand">
+        <br><br>
+
+        <label for="model">Model: </label>
+        <input type="text" placeholder="Model" id="model">
+        <br><br>
+
+        <label for="cpu">CPU: </label>
+        <input type="text" placeholder="CPU" id="cpu">
+        <br><br>
+
+        <label for="winKey">Windows Key (optional): </label>
+        <input type="text" placeholder="Windows Key" id="winKey">
+        <br><br>
+
+        <label for="offKey">Office Key (optional): </label>
+        <input type="text" placeholder="Office Key" id="offKey">
+        <br><br>
+
+        <label for="softKey">Software Key (optional): </label>
+        <input type="text" placeholder="Software Key" id="softKey">
+        <br><br>
+
+        <label for="username">Username: </label>
+        <input type="text" placeholder="Username" id="username">
+        <br><br>
+
+        <label for="ramType">Ram Type: </label>
+        <input type="text" placeholder="Ram Type" id="ramType">
+        <br><br>
+
+        <label for="ramAmt">Ram Amount: </label>
+        <input type="text" placeholder="Amount of Ram Space" id="ramAmt">
+        <br><br>
+
+        <label for="ramSize">Ram Size: </label>
+        <input type="text" placeholder="Ex. MB, GB, etc." id="ramSize">
+        <br><br>
+
+        <label for="hdType">HD Type: </label>
+        <input type="text" placeholder="HD Type" id="hdType">
+        <br><br>
+
+        <label for="hdAmt">HD Amount: </label>
+        <input type="text" placeholder="Amount of HD Space" id="hdAmt">
+        <br><br>
+
+        <label for="hdSize">HD Size: </label>
+        <input type="text" placeholder="Ex. MB, GB, etc." id="hdSize">
+        <br><br>
+
+        <button id="addDeviceButton">Add Device</button>
+        <br><br>
+        <button id="homeButton">Back to Home</button>
+        <script type="text/javascript">
+            homeButton.addEventListener("click", () => {
+                window.location.href = "../../index.html";
+            })
+        </script>
+      </div>
+    </div>
+  </body>
+</html>

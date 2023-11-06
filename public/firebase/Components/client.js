@@ -60,7 +60,7 @@ const addClient = () => {
                 client: client
             })
             .then(() => {
-                // displayClients();
+                displayClients();
                 alert("Client " + client + " has been added!");
                 
             })
@@ -151,17 +151,18 @@ const addComputer = () => {
       .then((snapshot) => {
         const clientsData = snapshot.val();
         const clientKey = Object.keys(clientsData).find((key) => clientsData[key].client === clientName);
+        const locationKey = Object.keys(clientsData[clientKey].locations).find(
+          (key) => clientsData[clientKey].locations[key].name === locationName
+        );
   
         if (clientKey) {
           // The client exists, add the computer under the existing client and location
   
-          const clientLocationsRef = ref(db, `clients/${clientKey}/locations`);
-          const locationKey = Object.keys(clientsData[clientKey].locations).find(
-            (key) => clientsData[clientKey].locations[key].name === locationName
-          );
+          const clientLocationsRef = ref(db, `clients/${clientKey}/locations/${locationKey}`);
+          
   
           if (locationKey) {
-            const locationComputersRef = ref(clientLocationsRef, locationKey + '/computers');
+            const locationComputersRef = ref(db, `clients/${clientKey}/locations/${locationKey}/computers`);
             const newComputerRef = push(locationComputersRef);
   
             // Set the computer data (you can add more properties if needed)
