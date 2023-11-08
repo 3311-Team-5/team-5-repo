@@ -6,6 +6,7 @@ import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com
 const db = getDatabase(app);
 const clientList = document.getElementById("Client-List");
 const computerList = document.getElementById("comp-List");
+let computerName = "";
 
 const displayClients = () => {
   const dbRef = ref(getDatabase(app));
@@ -55,15 +56,16 @@ const displayComputers = () => {
                         if (location.computers) {
                             for (const computerKey in location.computers) {
                                 const computer = location.computers[computerKey];
-                                const computerName = computer.name;
+                                computerName = computer.name;
   
                                 const listItem = document.createElement("li");
                                 const button = document.createElement("button");
                                 button.textContent = `Client: ${clientName}, Location: ${location.name}, Computer: ${computerName}`;
                                 //add an event listener for further functionality here if needed
                                 button.addEventListener("click", () => {
-                                  document.getElementById("deviceName").placeholder = "testing";
-                                  window.location.href = "../../card.html";
+                                    // document.getElementById("#deviceName").placeholder = "testing";
+                                    window.location.href = "../../card.html";
+                                    // addCompAtt(clientName, location.name, computerName);
                                 })
                                 // window.addEventListener("load", addCompAtt(clientName, location.name, computerName));
                                 listItem.appendChild(button);
@@ -120,6 +122,17 @@ const addClient = () => {
         console.log(error.code + " " + error.message);
     }) 
 }
+
+const addCompAtt = (client, locationName, comp) => { // POTENTIAL SOLUTION TO TRANSFERRING INFORMATION TO DIFFERENT HTML?
+    console.log(comp);
+    const deviceName = document.getElementById("deviceName");
+    if(deviceName){
+      document.getElementById("deviceName").placeholder = "testing";
+      location.reload();
+    }else{
+      console.log("DOES NOT EXIST!!!!");
+    }
+  }
   
 
 const addClientButton = document.getElementById("addClientButton");
