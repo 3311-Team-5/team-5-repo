@@ -1,8 +1,11 @@
 import { app } from './firebase.js';
+import { addLocation } from './location.js';
+import { addComputer } from './device.js';
 import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
 
 const db = getDatabase(app);
 const clientList = document.getElementById("Client-List");
+const computerList = document.getElementById("comp-List");
 
 const displayClients = () => {
   const dbRef = ref(getDatabase(app));
@@ -30,8 +33,50 @@ const displayClients = () => {
       .catch((error) => {
           console.error("Error fetching clients: ", error);
       });
+};
 
-
+const displayComputers = () => {
+    const dbRef = ref(getDatabase(app));
+  
+    get(child(dbRef, "clients/"))
+        .then((snapshot) => {
+            const clientsData = snapshot.val();
+            computerList.innerHTML = ""; // Clear the computer list
+  
+            for (const key in clientsData) {
+                const clientName = clientsData[key].client;
+  
+                // Check if the client has locations
+                if (clientsData[key].locations) {
+                    for (const locationKey in clientsData[key].locations) {
+                        const location = clientsData[key].locations[locationKey];
+  
+                        // Check if the location has computers
+                        if (location.computers) {
+                            for (const computerKey in location.computers) {
+                                const computer = location.computers[computerKey];
+                                const computerName = computer.name;
+  
+                                const listItem = document.createElement("li");
+                                const button = document.createElement("button");
+                                button.textContent = `Client: ${clientName}, Location: ${location.name}, Computer: ${computerName}`;
+                                //add an event listener for further functionality here if needed
+                                button.addEventListener("click", () => {
+                                  document.getElementById("deviceName").placeholder = "testing";
+                                  window.location.href = "../../card.html";
+                                })
+                                // window.addEventListener("load", addCompAtt(clientName, location.name, computerName));
+                                listItem.appendChild(button);
+                                computerList.appendChild(listItem);
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching computers: ", error);
+        });
 };
 
 const addClient = () => {
@@ -70,124 +115,11 @@ const addClient = () => {
                 console.log(errorCode + " " + errorMessage);
             })
         }
-
-
     })
     .catch((error) => {
         console.log(error.code + " " + error.message);
-    })
-  
+    }) 
 }
-//once a client button is clicked function addLocation() give the option to add a Location to the client in the databse
-//------------------------------------------------------------------------------------------------------------------------------
-const addLocation = (clientName) => {
-    const locationName = prompt("Enter the location name:");
-    if (!locationName) {
-      alert("Location name cannot be empty.");
-      return;
-    }
-  
-    const db = getDatabase(app); // SHOULD NOT NEED THIS LINE SINCE IT IS CALLED GLOBALLY
-  
-    const clientsRef = ref(db, 'clients');
-  
-    // Query the database to find the client's unique key based on their name
-    get(clientsRef)
-      .then((snapshot) => {
-        const clientsData = snapshot.val();
-        const clientKey = Object.keys(clientsData).find((key) => clientsData[key].client === clientName);
-  
-        if (clientKey) {
-          // The client exists, add the location under the existing client
-
-          //this is where you add the check for unique location name
-          
-          const clientLocationsRef = ref(db, `clients/${clientKey}/locations`);
-          const newLocationRef = push(clientLocationsRef);
-  
-          // Set the location data (you can add more properties if needed)
-          set(newLocationRef, {
-            name: locationName,
-            // Other properties specific to the location
-          })
-            .then(() => {
-              // Location added successfully
-              alert(`Location "${locationName}" added for client "${clientName}"`);
-            })
-            .catch((error) => {
-              console.error(`Error adding location: ${error}`);
-            });
-        } else {
-          alert(`Client "${clientName}" does not exist. Please add the client first.`);
-        }
-      })
-      .catch((error) => {
-        console.error(`Error querying the database: ${error}`);
-      });
-  };
-//--------------------------------------------------------------------------------------
-//does not work
-const addComputer = () => {
-    const computerName = document.querySelector("#computer").value;
-    
-    const clientName = prompt("Enter the client name:");
-        if (!clientName) {
-        alert("Client name cannot be empty.");
-        return;
-    }
-
-    const locationName = prompt("Enter the location name:");
-        if (!locationName) {
-        alert("Location name cannot be empty.");
-        return;
-    }
-    
-    const db = getDatabase(app);
-  
-    const clientsRef = ref(db, 'clients');
-  
-    // Query the database to find the client's unique key based on their name
-    get(clientsRef)
-      .then((snapshot) => {
-        const clientsData = snapshot.val();
-        const clientKey = Object.keys(clientsData).find((key) => clientsData[key].client === clientName);
-        const locationKey = Object.keys(clientsData[clientKey].locations).find(
-          (key) => clientsData[clientKey].locations[key].name === locationName
-        );
-  
-        if (clientKey) {
-          // The client exists, add the computer under the existing client and location
-  
-          const clientLocationsRef = ref(db, `clients/${clientKey}/locations/${locationKey}`);
-          
-  
-          if (locationKey) {
-            const locationComputersRef = ref(db, `clients/${clientKey}/locations/${locationKey}/computers`);
-            const newComputerRef = push(locationComputersRef);
-  
-            // Set the computer data (you can add more properties if needed)
-            set(newComputerRef, {
-              name: computerName,
-              // Other properties specific to the computer
-            })
-              .then(() => {
-                // Computer added successfully
-                alert(`Computer "${computerName}" added for location "${locationName}" and client "${clientName}"`);
-              })
-              .catch((error) => {
-                console.error(`Error adding computer: ${error}`);
-              });
-          } else {
-            alert(`Location "${locationName}" does not exist for client "${clientName}". Please add the location first.`);
-          }
-        } else {
-          alert(`Client "${clientName}" does not exist. Please add the client first.`);
-        }
-      })
-      .catch((error) => {
-        console.error(`Error querying the database: ${error}`);
-      });
-  };
   
 
 const addClientButton = document.getElementById("addClientButton");
@@ -195,3 +127,4 @@ addClientButton.addEventListener('click', addClient);
 const addComputerButton = document.getElementById("addComputerButton");
 addComputerButton.addEventListener('click', addComputer);
 displayClients();
+displayComputers();

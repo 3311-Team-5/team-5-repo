@@ -23,9 +23,6 @@
   "devDependencies": {
     "@babel/cli": "^7.23.0",
     "@babel/core": "^7.23.2",
-    "@babel/preset-flow": "^7.22.15",
-    "eslint": "^8.52.0",
-    "eslint-config-google": "^0.14.0",
-    "flow-bin": "^0.219.5"
+    "@babel/preset-flow": "^7.22.15"
   }
 }
