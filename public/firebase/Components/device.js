@@ -39,7 +39,7 @@ export const addComputer = () => {
             set(newComputerRef, {
               name: computerName,
               // Other properties specific to the computer
-              // NEED TO ADD COMPUTER DETAILS HERE
+              // POTENTIALLY ADD COMPUTER ATTRIBUTES HERE
             })
               .then(() => {
                 // Computer added successfully
