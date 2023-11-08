@@ -5,9 +5,9 @@ const auth = getAuth(app);
 
 const userEmail = document.querySelector("#userEmail");
 const userPassword = document.querySelector("#userPassword");
-const signUpButton = document.querySelector("#signUpButton");
-const signInButton = document.querySelector("#signInButton");
-const signOutButton = document.querySelector("#signOutButton");
+// const signUpButton = document.querySelector("#signUpButton");
+// const signInButton = document.querySelector("#signInButton");
+// const signOutButton = document.querySelector("#signOutButton");
 const loginContainer = document.getElementById("login-container");
 const authenticatedContainer = document.getElementById("authenticated-container");
 
@@ -116,6 +116,6 @@ const authState = async () => { // FIREBASE FUNCTION TO READ AUTHENTICATED STATE
 
 authState();
 
-signUpButton.addEventListener('click', signUp);
+// signUpButton.addEventListener('click', signUp);
 signInButton.addEventListener('click', login);
 signOutButton.addEventListener('click', logout);

@@ -13,9 +13,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \\\"Error: no test specified\\\" && exit 1",
-    "start": "nodemon server"
+    "start": "nodemon server",
+    "build": "babel public/ -d lib/",
+    "flow": "flow"
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@babel/cli": "^7.23.0",
+    "@babel/core": "^7.23.2",
+    "@babel/preset-flow": "^7.22.15"
+  }
 }

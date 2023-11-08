@@ -6,11 +6,15 @@
     <title>Techlog</title>
       <script type="module" src="script/Components/firebase.js"></script>
       <script type="module" src="firebase/Components/auth.js"></script>
-      <script type="module" src="firebase/Components/db.js"></script>
+      <script type="module" src="firebase/Components/client.js"></script>
+      <!-- <script type="module" src="firebase/Components/location.js"></script>
+      <script type="module" src="firebase/Components/device.js"></script> -->
+      <!-- <script type="module" src="firebase/Components/db.js"></script> -->
+      <link rel="stylesheet" type="text/css" href="smallUIFixes.css">  <!-- small UI changes -->
   </head>
   <body>
     <div id="app">
-      <script src="./routes.js"></script>
+      <!-- <script src="./routes.js"></script> -->
       <div id="login-container">
         <h2>Login</h2>
         <label for="userEmail">Email: </label>
@@ -19,11 +23,15 @@
         <label for="userPassword">Password: </label>
         <input type="password" placeholder="Password" id="userPassword">
         <br><br>
-        <button id="signUpButton">Sign Up</button>
+        <!-- <button id="signUpButton">Sign Up</button> -->
         <button id="signInButton">Sign In</button>
       </div>
       <div id="authenticated-container" style="display: none;">
         <h3>Landing</h3>
+        <h4>Clients:</h4>
+
+        <ul id="Client-List" class="Client-List"></ul>
+        <br><br>
         <!-- ... Your authenticated content fields ... -->
         <!-- <label for="searchBox">Search: </label>
         <input type="search" placeholder="Search for Client" id="searchBox">
@@ -36,8 +44,22 @@
         <input type="text" placeholder="Location" id="location">
         <br><br> -->
         <button id="addClientButton">Add Client</button>
+        
         <br><br>
+        
+        <label for="computer">Computer: </label>
+        <input type="text" placeholder="Computer Name" id="computer">
+        <br><br>
+        <!-- <label for="location">Location: </label>
+        <input type="text" placeholder="Location" id="location">
+        <br><br> -->
+        <button id="addComputerButton">Add Computer</button>
 
+        <br><br>
+        <h4>Computers:</h4>
+
+        <ul id="comp-List" class="comp-List"></ul>
+        <br><br>
         <!-- <label for="brand">Computer Brand: </label>
         <input type="text" placeholder="Brand" id="brand">
         <br><br>
