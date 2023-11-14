@@ -44,6 +44,7 @@ export const addComputer = () => {
               .then(() => {
                 // Computer added successfully
                 alert(`Computer "${computerName}" added for location "${locationName}" and client "${clientName}"`);
+                displayComputers();
               })
               .catch((error) => {
                 console.error(`Error adding computer: ${error}`);
