@@ -1,7 +1,6 @@
 import { app } from './firebase.js';
 import { addLocation } from './location.js';
 import { addComputer } from './device.js';
-import {displayLocation} from './location.js';
 import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
 
 const db = getDatabase(app);
@@ -9,14 +8,12 @@ const clientList = document.getElementById("Client-List");
 const computerList = document.getElementById("comp-List");
 let computerName = "";
 
-
 const displayClients = () => {
   const dbRef = ref(getDatabase(app));
 
   get(child(dbRef, "clients/"))
       .then((snapshot) => {
           const clientsData = snapshot.val();
-
           clientList.innerHTML = "";
 
           for (const key in clientsData) {
@@ -26,13 +23,10 @@ const displayClients = () => {
               const button = document.createElement("button");
               //listItem.textContent = clientName;
               button.textContent = clientName;
-
-
               button.addEventListener("click", () => {
-
-                  window.location.href = "../../location.html"; //check for function that passes in some sort of path //instead go to location page
-                  //displayLocation(clientName);
-                  //alert("Lo on client: " +clientName);
+                  //addLocation(clientName); 
+                  window.location.href = "../../location.html";//check for function that passes in some sort of path
+                  //alert("Clicked on client: " +clientName);
               })
               listItem.appendChild(button);
               clientList.appendChild(listItem);
@@ -42,7 +36,6 @@ const displayClients = () => {
           console.error("Error fetching clients: ", error);
       });
 };
-
 
 /*
 const displayComputers = () => {
@@ -89,7 +82,6 @@ const displayComputers = () => {
             console.error("Error fetching computers: ", error);
         });
 };
-
 */
 
 const addClient = () => {
@@ -146,11 +138,9 @@ const addCompAtt = (client, locationName, comp) => { // POTENTIAL SOLUTION TO TR
   }
   
 
-
 const addClientButton = document.getElementById("addClientButton");
 addClientButton.addEventListener('click', addClient);
 //const addComputerButton = document.getElementById("addComputerButton");
 //addComputerButton.addEventListener('click', addComputer);
 displayClients();
-
 //displayComputers();
