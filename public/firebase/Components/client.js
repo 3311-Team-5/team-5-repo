@@ -28,7 +28,7 @@ const displayClients = () => {
                   //addLocation(clientName); 
                   window.location.href = "../../location.html";//check for function that passes in some sort of path
                   displayLocation(clientName);
-                  
+
                   //alert("Clicked on client: " +clientName);
               })
               listItem.appendChild(button);
@@ -40,7 +40,7 @@ const displayClients = () => {
       });
 };
 
-/*
+
 const displayComputers = () => {
     const dbRef = ref(getDatabase(app));
   
@@ -85,7 +85,7 @@ const displayComputers = () => {
             console.error("Error fetching computers: ", error);
         });
 };
-*/
+
 
 const addClient = () => {
     const client = document.querySelector("#client").value;

@@ -3,7 +3,7 @@ import { getDatabase, ref, set, push, get } from 'https://www.gstatic.com/fireba
 
 //once a client button is clicked function addLocation() give the option to add a Location to the client in the database
 //------------------------------------------------------------------------------------------------------------------------------
-const locationList = document.getElementById("Location-List");
+
 
 export const addLocation = (clientName) => {
     const locationName = prompt("Enter the location name:");
@@ -51,59 +51,50 @@ export const addLocation = (clientName) => {
       });
   };
 
+
   export const  displayLocation = (clientNameIN) =>  {
+    //the beginning of this function reaches location, just like the device display function does
 
     const dbRef = ref(getDatabase(app));
  
     get(child(dbRef, "clients/"))
-        .then((snapshot) => {
-            const clientsData = snapshot.val();
+        .then((snapshot) => { 
+            const clientsData = snapshot.val(); 
 
-
-            //const clientNameListValue = clientsData[key].client;
-
+          
 
                   for (const key in clientsData) {
 
+                    const clientName = clientsData[key].client;
+                    const locationList = document.getElementById("Location-List");
 
-                    const clientNameListValue = clientsData[key].client;
-
-
-                    if (clientNameListValue == clientNameIN)
-                    {
-                      const clientName = clientsData[key].client;
+                    locationList.innerHTML = "";
+                    //here the code started to differ, as we are only interested in the locations for one client
+                    if (clientName == clientNameIN) //this condiitional should check for the client
+                    { 
+                    
  
-                      // Check if the client has locations
+                      // Check if the client has locations, this is the same as the device display function
                       if (clientsData[key].locations) {
                         for (const locationKey in clientsData[key].locations) {
-                        const locationData = clientsData[key].locations[locationKey];
-  //--------------------------------------------------------------------------------------------------------------
-                        //const locationData = snapshot.val();
-                       
-
-
-                        for (const key in locationData) {
-                          const locationName = locationData[key].location;
-
+                            const location = clientsData[key].locations[locationKey];
+                        
+                            const locationName = location.location;
 
                             const listItem = document.createElement("li");
                             const button = document.createElement("button");
                             //listItem.textContent = clientName;
                             button.textContent = locationName;
                             button.addEventListener("click", () => {
-                            //window.location.href = "../../location.html"; //check for function that passes in some sort of path //instead go to location page
-                            //displayLocation(locationName);
-                            //alert("Clicked on client: " +clientName);
+
+                            //here is the code that should execute when you click a location button
+
                             })
                             listItem.appendChild(button);
                             locationList.appendChild(listItem);
-                        }
-
-
-  //---------------------------------------------------------------------------------------------------------------
                      
                     }
-                    locationList.innerHTML = "";
+                    
                 }
             }
         }})
