@@ -1,6 +1,7 @@
 import { app } from './firebase.js';
 import { addLocation } from './location.js';
 import { addComputer } from './device.js';
+import { displayLocation } from './location.js';
 import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
 
 const db = getDatabase(app);
@@ -26,6 +27,8 @@ const displayClients = () => {
               button.addEventListener("click", () => {
                   //addLocation(clientName); 
                   window.location.href = "../../location.html";//check for function that passes in some sort of path
+                  displayLocation(clientName);
+                  
                   //alert("Clicked on client: " +clientName);
               })
               listItem.appendChild(button);
