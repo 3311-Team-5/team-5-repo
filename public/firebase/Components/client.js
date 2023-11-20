@@ -56,18 +56,22 @@ const displayComputers = () => {
                         if (location.computers) {
                             for (const computerKey in location.computers) {
                                 const computer = location.computers[computerKey];
-                                computerName = computer.name;
+                                const computerName = computer.name;
   
                                 const listItem = document.createElement("li");
                                 const button = document.createElement("button");
                                 button.textContent = `Client: ${clientName}, Location: ${location.name}, Computer: ${computerName}`;
-                                //add an event listener for further functionality here if needed
-                                button.addEventListener("click", () => {
-                                    // document.getElementById("#deviceName").placeholder = "testing";
-                                    window.location.href = "../../card.html";
-                                    // addCompAtt(clientName, location.name, computerName);
-                                })
-                                // window.addEventListener("load", addCompAtt(clientName, location.name, computerName));
+                                
+                                // Use a function to capture the correct computerKey
+                                const clickHandler = (computerKey) => {
+                                    return () => {
+                                        const url = `../../card.html?client=${clientName}&location=${location.name}&computer=${computerName}`;
+                                        window.location.href = url;
+                                    };
+                                };
+                                
+                                button.addEventListener("click", clickHandler(computerName));
+
                                 listItem.appendChild(button);
                                 computerList.appendChild(listItem);
                             }
@@ -80,6 +84,7 @@ const displayComputers = () => {
             console.error("Error fetching computers: ", error);
         });
 };
+
 
 const addClient = () => {
     const client = document.querySelector("#client").value;

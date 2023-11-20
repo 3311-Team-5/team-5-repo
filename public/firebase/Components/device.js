@@ -1,5 +1,5 @@
 import { app } from './firebase.js';
-import { getDatabase, ref, set, push, get } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
+import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
 
 export const addComputer = () => {
     const computerName = document.querySelector("#computer").value;
@@ -16,6 +16,11 @@ export const addComputer = () => {
         return;
     }
     
+    const cpu = prompt("Enter CPU:");
+    const ram = prompt("Enter RAM:");
+    const computerType = prompt("Enter Computer Type:");
+    const model = prompt("Enter Model:");
+
     const db = getDatabase(app);
   
     const clientsRef = ref(db, 'clients');
@@ -38,6 +43,10 @@ export const addComputer = () => {
             // Set the computer data (you can add more properties if needed)
             set(newComputerRef, {
               name: computerName,
+              cpu: cpu,
+              ram: ram,
+              computerType: computerType,
+              model: model,
               // Other properties specific to the computer
               // POTENTIALLY ADD COMPUTER ATTRIBUTES HERE
             })
@@ -59,3 +68,70 @@ export const addComputer = () => {
         console.error(`Error querying the database: ${error}`);
       });
 };
+
+export const getComputerDetails = (clientName, locationName, computerName) => {
+  console.log("Parameters:", clientName, locationName, computerName);
+  const db = getDatabase(app);
+  const clientsRef = ref(db, 'clients');
+
+  return get(child(clientsRef, '/'))
+    .then((snapshot) => {
+      const clientsData = snapshot.val();
+      const clientKey = Object.keys(clientsData).find((key) => clientsData[key].client === clientName);
+
+      console.log("Client Key:", clientKey);
+
+      if (clientKey) {
+        const clientLocationsRef = ref(db, `clients/${clientKey}/locations`);
+        return get(clientLocationsRef)
+          .then((locationsSnapshot) => {
+            const locationsData = locationsSnapshot.val();
+            const locationKey = Object.keys(locationsData).find((key) => locationsData[key].name === locationName);
+
+            console.log("Location Key:", locationKey);
+
+            if (locationKey) {
+              const locationComputersRef = ref(db, `clients/${clientKey}/locations/${locationKey}/computers`);
+              return get(locationComputersRef)
+                .then((computersSnapshot) => {
+                  const computersData = computersSnapshot.val();
+                  const computerDetails = computersData ? computersData[computerName] : null;
+
+                  console.log("Computer Details:", computerDetails);
+
+                  if (computerDetails) {
+                    return {
+                      cpu: computerDetails.cpu || "",
+                      ram: computerDetails.ram || "",
+                      computerType: computerDetails.computerType || "",
+                      model: computerDetails.model || "",
+                    };
+                  } else {
+                    console.error("Computer details not found");
+                    return null;
+                  }
+                })
+                .catch((error) => {
+                  console.error("Error fetching computer details: ", error);
+                  return null;
+                });
+            } else {
+              console.error(`Location "${locationName}" does not exist for client "${clientName}"`);
+              return null;
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching locations: ", error);
+            return null;
+          });
+      } else {
+        console.error(`Client "${clientName}" does not exist`);
+        return null;
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching clients: ", error);
+      return null;
+    });
+};
+
