@@ -1,12 +1,12 @@
 import { app } from './firebase.js';
 import { addLocation } from './location.js';
 import { addComputer } from './device.js';
-import { displayLocation } from './location.js';
 import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
 
 const db = getDatabase(app);
 const clientList = document.getElementById("Client-List");
 const computerList = document.getElementById("comp-List");
+const locationList = document.getElementById("Location-List");
 let computerName = "";
 
 const displayClients = () => {
@@ -25,11 +25,10 @@ const displayClients = () => {
               //listItem.textContent = clientName;
               button.textContent = clientName;
               button.addEventListener("click", () => {
-                  //addLocation(clientName); 
-                  window.location.href = "../../location.html";//check for function that passes in some sort of path
-                  displayLocation(clientName);
-
+                  addLocation(clientName); //check for function that passes in some sort of path
                   //alert("Clicked on client: " +clientName);
+
+                  //displayLocation();
               })
               listItem.appendChild(button);
               clientList.appendChild(listItem);
@@ -39,7 +38,6 @@ const displayClients = () => {
           console.error("Error fetching clients: ", error);
       });
 };
-
 
 const displayComputers = () => {
     const dbRef = ref(getDatabase(app));
@@ -85,7 +83,6 @@ const displayComputers = () => {
             console.error("Error fetching computers: ", error);
         });
 };
-
 
 const addClient = () => {
     const client = document.querySelector("#client").value;
@@ -141,9 +138,57 @@ const addCompAtt = (client, locationName, comp) => { // POTENTIAL SOLUTION TO TR
   }
   
 
+const displayLocation = () => {
+    const dbRef = ref(getDatabase(app));
+  
+    get(child(dbRef, "clients/"))
+        .then((snapshot) => {
+            const clientsData = snapshot.val();
+            computerList.innerHTML = ""; // Clear the computer list
+  
+            for (const key in clientsData) {
+                const clientName = clientsData[key].client;
+                
+                // Check if the client has locations
+                if (clientsData[key].locations) {
+
+                    const clientHeading = document.createElement("h5");
+                    clientHeading.textContent = `Client: ${clientName}`;
+                    locationList.appendChild(clientHeading);
+
+                    for (const locationKey in clientsData[key].locations) {
+                        const location = clientsData[key].locations[locationKey];
+
+  
+                                const listItem = document.createElement("li");
+                                const button = document.createElement("button");
+                                button.textContent = `Location: ${location.name}`;
+                                //add an event listener for further functionality here if needed
+                                button.addEventListener("click", () => {
+                                    
+                                })
+                                listItem.appendChild(button);
+                                locationList.appendChild(listItem);
+                                
+                    }
+                }
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching computers: ", error);
+        });
+};
+
+const addLocationButton = document.getElementById("addLocationButton"); //for some reason these are messing with the client buttons
+addLocationButton.addEventListener('click', addLocation);  //for some reason these are messing with the client buttons
+
+
 const addClientButton = document.getElementById("addClientButton");
 addClientButton.addEventListener('click', addClient);
-//const addComputerButton = document.getElementById("addComputerButton");
-//addComputerButton.addEventListener('click', addComputer);
+const addComputerButton = document.getElementById("addComputerButton");
+addComputerButton.addEventListener('click', addComputer);
+displayLocation();
 displayClients();
-//displayComputers();
+displayComputers();
+
+

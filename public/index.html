@@ -16,7 +16,8 @@
       <!-- <script type="module" src="firebase/Components/location.js"></script>
       <script type="module" src="firebase/Components/device.js"></script>
       <script type="module" src="firebase/Components/db.js"></script> -->
-      <link rel="stylesheet" type="text/css" href="smallUIFixes.css">  <!-- small UI changes
+      <link rel="stylesheet" type="text/css" href="smallUIFixes.css">  <!-- small UI changes-->
+      <link rel="stylesheet" type="text/css" href="smallUIFixes copy.css"> 
   </head>
   <body>
     <div id="app">
@@ -33,7 +34,7 @@
         <button id="signInButton">Sign In</button>
       </div>
       <div id="authenticated-container" style="display: none;">
-        <h3>TechLog</h3>
+        <h3>Landing</h3>
         <h4>Clients:</h4>
 
         <ul id="Client-List" class="Client-List"></ul>
@@ -52,20 +53,38 @@
         <button id="addClientButton">Add Client</button>
         
         <br><br>
+
+          <h4>Locations</h4>
+          
+          
+          <ul id="Location-List" class="Location-List"></ul>
+          <br><br>
+          <label for="location">Locations: </label>
+          <br><br>
+
+          <input type="text" placeholder="Location Name" id="location">
+  
+  
+          <button id="addLocationButton">Add Location</button>
         
-        <!--label for="computer">Computer: </label>
-        <input type="text" placeholder="Computer Name" id="computer"-->
+          <br><br>
+
+
+        <label for="computer">Computer: </label>
+        <input type="text" placeholder="Computer Name" id="computer">
         <br><br>
         <!-- <label for="location">Location: </label>
         <input type="text" placeholder="Location" id="location">
         <br><br> -->
-        <!--button id="addComputerButton">Add Computer</button>
+        <button id="addComputerButton">Add Computer</button>
 
         <br><br>
         <h4>Computers:</h4>
 
-        <ul id="comp-List" class="comp-List"--></ul>
+        <ul id="comp-List" class="comp-List"></ul>
         <br><br>
+
+        
         <!-- <label for="brand">Computer Brand: </label>
         <input type="text" placeholder="Brand" id="brand">
         <br><br>

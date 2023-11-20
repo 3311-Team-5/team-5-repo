@@ -52,57 +52,5 @@ export const addLocation = (clientName) => {
   };
 
 
-  export const  displayLocation = (clientNameIN) =>  {
-    //the beginning of this function reaches location, just like the device display function does
-
-    const dbRef = ref(getDatabase(app));
- 
-    get(child(dbRef, "clients/"))
-        .then((snapshot) => { 
-            const clientsData = snapshot.val(); 
-
-          
-
-                  for (const key in clientsData) {
-
-                    const clientName = clientsData[key].client;
-                    const locationList = document.getElementById("Location-List");
-
-                    locationList.innerHTML = "";
-                    //here the code started to differ, as we are only interested in the locations for one client
-                    if (clientName == clientNameIN) //this condiitional should check for the client
-                    { 
-                    
- 
-                      // Check if the client has locations, this is the same as the device display function
-                      if (clientsData[key].locations) {
-                        for (const locationKey in clientsData[key].locations) {
-                            const location = clientsData[key].locations[locationKey];
-                        
-                            const locationName = location.location;
-
-                            const listItem = document.createElement("li");
-                            const button = document.createElement("button");
-                            //listItem.textContent = clientName;
-                            button.textContent = locationName;
-                            button.addEventListener("click", () => {
-
-                            //here is the code that should execute when you click a location button
-
-                            })
-                            listItem.appendChild(button);
-                            locationList.appendChild(listItem);
-                     
-                    }
-                    
-                }
-            }
-        }})
-        .catch((error) => {
-            console.error("Error fetching computers: ", error);
-        });
-};
-
-
-const addLocationButton = document.getElementById("addLocationButton");
-addLocationButton.addEventListener('click', addLocation);
+//const addLocationButton = document.getElementById("addLocationButton"); //for some reason these are messing with the client buttons
+//addLocationButton.addEventListener('click', addLocation);  //for some reason these are messing with the client buttons
