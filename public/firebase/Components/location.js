@@ -8,13 +8,16 @@ import { getDatabase, ref, set, push, get } from 'https://www.gstatic.com/fireba
 
 
 
-export const addLocation = (clientName) => {
-  
-    const locationName = prompt("Enter the location name:");
-    if (!locationName) {
-      alert("Location name cannot be empty.");
-      return;
-    }
+export const addLocation = (clientName, locationName) => {
+
+
+
+
+    //const locationName = prompt("Enter the location name:");
+    //if (!locationName) {
+     // alert("Location name cannot be empty.");
+     // return;
+   // }
   
     const db = getDatabase(app);
   

@@ -213,12 +213,17 @@ const displayLocation = (clientName2) => {
 const addClientButton = document.getElementById("addClientButton");
 addClientButton.addEventListener('click', addClient);
 const addComputerButton = document.getElementById("addComputerButton");
+const locationInput = document.getElementById('location');
 addComputerButton.addEventListener('click', addComputer);
+
 const addLocationButton = document.getElementById("addLocationButton");
 
 addLocationButton.addEventListener("click", () => {
 
-    addLocation(currentClient);
+
+    const locationName = locationInput.value.trim();
+
+    addLocation(currentClient, locationName);
 }
 
 );
