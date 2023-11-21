@@ -30,6 +30,7 @@ const displayClients = () => {
               button.addEventListener("click", () => {
                   
                   displayLocation(clientName);
+                  currentClient = clientName;
 
 
 
@@ -67,7 +68,7 @@ const displayComputers = (clientName2) => {
 
                         
                         
-                     
+                      
                         // Check if the location has computers
                         if (location.computers) {
                             const clientHeading = document.createElement("h5");
@@ -187,6 +188,7 @@ const displayLocation = (clientName2) => {
                                 button.addEventListener("click", () => {
 
                                 displayComputers(clientName); //when a location is clicked display the devices. 
+
                                 
                                 })
                                 listItem.appendChild(button);
@@ -213,7 +215,13 @@ addClientButton.addEventListener('click', addClient);
 const addComputerButton = document.getElementById("addComputerButton");
 addComputerButton.addEventListener('click', addComputer);
 const addLocationButton = document.getElementById("addLocationButton");
-addLocationButton.addEventListener('click', addLocation);
+
+addLocationButton.addEventListener("click", () => {
+
+    addLocation(currentClient);
+}
+
+);
 
 //displayLocation();
 displayClients();
