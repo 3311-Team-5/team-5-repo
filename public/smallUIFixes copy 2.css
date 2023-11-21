@@ -1,0 +1,20 @@
+/* Remove bullets and add space between buttons */
+.comp-List {
+    list-style: none; /* Remove bullets */
+}
+
+.comp-List li {
+    margin-bottom: 10px; /* Add space between buttons */
+}
+
+.comp-List button {
+    padding: 5px 10px; /* Add padding to the buttons */
+    background-color: #3498db; /* Customize button background color */
+    color: #fff; /* Set text color to white */
+    border: none; /* Remove button border */
+    cursor: pointer;
+}
+
+.comp-List button:hover {
+    background-color: #2980b9; /* Change background color on hover */
+}

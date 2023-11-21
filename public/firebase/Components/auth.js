@@ -65,6 +65,7 @@ const login = async () => {
         else if(errorMessage.localeCompare("Firebase: Error (auth/invalid-email).") == 0)
         {
             alert("Invalid email address\nPlease try again");
+
         }
     })
 };

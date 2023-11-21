@@ -4,8 +4,12 @@ import { getDatabase, ref, set, push, get } from 'https://www.gstatic.com/fireba
 //once a client button is clicked function addLocation() give the option to add a Location to the client in the database
 //------------------------------------------------------------------------------------------------------------------------------
 
+//const locationList = document.getElementById("Location-List");
+
+
 
 export const addLocation = (clientName) => {
+  
     const locationName = prompt("Enter the location name:");
     if (!locationName) {
       alert("Location name cannot be empty.");
@@ -52,5 +56,4 @@ export const addLocation = (clientName) => {
   };
 
 
-//const addLocationButton = document.getElementById("addLocationButton"); //for some reason these are messing with the client buttons
-//addLocationButton.addEventListener('click', addLocation);  //for some reason these are messing with the client buttons
+  
