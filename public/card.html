@@ -14,10 +14,10 @@
 
       <div id="computerAttributes">
         <!-- Display computer attributes here -->
-        <p>CPU: <input type="text" id="cpu" readonly></p>
-        <p>RAM: <input type="text" id="ram" readonly></p>
-        <p>Computer Type: <input type="text" id="computerType" readonly></p>
-        <p>Model: <input type="text" id="model" readonly></p>
+        <p>CPU: <input type="text" id="cpu" ></p>
+        <p>RAM: <input type="text" id="ram" ></p>
+        <p>Computer Type: <input type="text" id="computerType" ></p>
+        <p>Model: <input type="text" id="model" ></p>
       </div>
 
       <button id="editButton">Edit</button>
@@ -61,16 +61,22 @@
       
             // Function to toggle edit mode
             const toggleEditMode = () => {
+              console.log("CPU READ is " + cpuElement.readOnly);
+              console.log("RAM READ is " + ramElement.readOnly);
+              console.log("COMPUTER TYPE READ is " + computerTypeElement.readOnly);
+              console.log("MODEL READ is " + modelElement.readOnly);
+
               const isEditing = cpuElement.readOnly;
               // Works backwards for some reason, doesn't work without the !
+              console.log("isEditing is " + isEditing);
               cpuElement.readOnly = !isEditing;
               ramElement.readOnly = !isEditing;
               computerTypeElement.readOnly = !isEditing;
               modelElement.readOnly = !isEditing;
       
               // Show/hide the "Save" and "Cancel" buttons based on the edit mode
-              saveButton.style.display = isEditing ? "none" : "block";
-              editButton.innerText = isEditing ? "Edit" : "Cancel";
+              saveButton.style.display = isEditing ? "block" : "none";
+              editButton.innerText = isEditing ? "Cancel" : "Edit";
             };
       
             editButton.addEventListener("click", toggleEditMode);
