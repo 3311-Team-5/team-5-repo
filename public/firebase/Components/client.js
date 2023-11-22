@@ -11,6 +11,61 @@ const locationList = document.getElementById("Location-List");
 let computerName = "";
 let currentClient = "";
 let currLocation = "";
+ 
+/*
+const searchBar = () => {
+
+    const dbRef = ref(getDatabase(app));
+  
+    get(child(dbRef, "clients/"))
+        .then((snapshot) => {
+            const clientsData = snapshot.val();
+            computerList.innerHTML = ""; // Clear the computer list
+  
+            for (const key in clientsData) {
+                const clientName = clientsData[key].client;
+  
+                // Check if the client has locations
+                if (clientsData[key].locations) {
+                    for (const locationKey in clientsData[key].locations) {
+                        const location = clientsData[key].locations[locationKey];
+  
+                        // Check if the location has computers
+                        if (location.computers) {
+                            for (const computerKey in location.computers) {
+                                const computer = location.computers[computerKey];
+                                computerName = computer.name;
+  
+                                const listItem = document.createElement("li");
+                                const button = document.createElement("button");
+                                button.textContent = `Client: ${clientName}, Location: ${location.name}, Computer: ${computerName}`;
+                                //add an event listener for further functionality here if needed
+                                button.addEventListener("click", () => {
+                                    // document.getElementById("#deviceName").placeholder = "testing";
+                                    window.location.href = "../../card.html";
+                                    // addCompAtt(clientName, location.name, computerName);
+                                })
+                                // window.addEventListener("load", addCompAtt(clientName, location.name, computerName));
+                                listItem.appendChild(button);
+                                computerList.appendChild(listItem);
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching computers: ", error);
+        });
+
+
+
+};
+searchBar();
+
+
+
+*/
 
 
 const displayClients = () => {
@@ -29,6 +84,8 @@ const displayClients = () => {
               //listItem.textContent = clientName;
               button.textContent = clientName;
               button.addEventListener("click", () => {
+                locationList.innerHTML = "";
+                computerList.innerHTML = "";
                   
                   displayLocation(clientName);
                   currentClient = clientName;
@@ -189,6 +246,7 @@ const displayLocation = (clientName2) => {
                                 button.textContent = `Location: ${location.name}`;
                                 //add an event listener for further functionality here if needed
                                 button.addEventListener("click", () => {
+                                computerList.innerHTML = "";
 
                                 displayComputers(clientName, location.name); //when a location is clicked display the devices. 
                                 currLocation = location.name;
