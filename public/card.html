@@ -25,7 +25,7 @@
       <button id="homeButton">Back to Home</button>
 
       <script type="module">
-        import { getComputerDetails } from './firebase/Components/device.js';
+        import { getComputerDetails, saveUpdate } from './firebase/Components/device.js';
       
         // Add event listener for the "Back to Home" button
         const homeButton = document.getElementById("homeButton");
@@ -35,6 +35,8 @@
       
         document.addEventListener("DOMContentLoaded", async () => {
           const params = new URLSearchParams(window.location.search);
+          const key = params.get("key");
+          const locationKey = params.get("lkey");
           const clientName = params.get("client");
           const locationName = params.get("location");
           const computerName = params.get("computer");
@@ -82,18 +84,9 @@
             editButton.addEventListener("click", toggleEditMode);
     
             saveButton.addEventListener("click", async () => {
-              // Implement logic to update the database with the new values
-              const updatedDetails = {
-                cpu: cpuElement.value,
-                ram: ramElement.value,
-                computerType: computerTypeElement.value,
-                model: modelElement.value,
-              };
-      
-              // Implement the function to update the database with the new values
-              // For now, logs the updated details
-              console.log("Updated Details:", updatedDetails);
-      
+              
+              saveUpdate(key, locationKey, cpuElement.value, ramElement.value, computerTypeElement.value, modelElement.value);
+
               // Toggle back to read-only mode
               toggleEditMode();
             });

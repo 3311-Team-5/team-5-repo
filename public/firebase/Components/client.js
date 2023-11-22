@@ -46,6 +46,7 @@ const displayComputers = () => {
   
             for (const key in clientsData) {
                 const clientName = clientsData[key].client;
+                console.log(clientName + ' ' + key);
   
                 // Check if the client has locations
                 if (clientsData[key].locations) {
@@ -65,7 +66,7 @@ const displayComputers = () => {
                                 // Use a function to capture the correct computerKey
                                 const clickHandler = (computerKey) => {
                                     return () => {
-                                        const url = `../../card.html?client=${clientName}&location=${location.name}&computer=${computerName}`;
+                                        const url = `../../card.html?key=${key}&lkey=${locationKey}&client=${clientName}&location=${location.name}&computer=${computerName}`; // ADDED UNIQUE KEY AND LOCATION KEY TO URL
                                         window.location.href = url;
                                     };
                                 };
