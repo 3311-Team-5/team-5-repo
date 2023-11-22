@@ -70,12 +70,13 @@ export const addComputer = () => {
 };
 
 export const getComputerDetails = (clientName, locationName, computerName) => {
-  console.log("Parameters:", clientName, locationName, computerName);
-  const db = getDatabase(app);
-  const clientsRef = ref(db, 'clients');
+  return new Promise(async (resolve, reject) => {
+    console.log("Parameters:", clientName, locationName, computerName);
+    const db = getDatabase(app);
+    const clientsRef = ref(db, 'clients');
 
-  return get(child(clientsRef, '/'))
-    .then((snapshot) => {
+    try {
+      const snapshot = await get(child(clientsRef, '/'));
       const clientsData = snapshot.val();
       const clientKey = Object.keys(clientsData).find((key) => clientsData[key].client === clientName);
 
@@ -83,55 +84,51 @@ export const getComputerDetails = (clientName, locationName, computerName) => {
 
       if (clientKey) {
         const clientLocationsRef = ref(db, `clients/${clientKey}/locations`);
-        return get(clientLocationsRef)
-          .then((locationsSnapshot) => {
-            const locationsData = locationsSnapshot.val();
-            const locationKey = Object.keys(locationsData).find((key) => locationsData[key].name === locationName);
+        const locationsSnapshot = await get(clientLocationsRef);
+        const locationsData = locationsSnapshot.val();
+        const locationKey = Object.keys(locationsData).find((key) => locationsData[key].name === locationName);
 
-            console.log("Location Key:", locationKey);
+        console.log("Location Key:", locationKey);
 
-            if (locationKey) {
-              const locationComputersRef = ref(db, `clients/${clientKey}/locations/${locationKey}/computers`);
-              return get(locationComputersRef)
-                .then((computersSnapshot) => {
-                  const computersData = computersSnapshot.val();
-                  const computerDetails = computersData ? computersData[computerName] : null;
+        if (locationKey) {
+          const locationComputersRef = ref(db, `clients/${clientKey}/locations/${locationKey}/computers`);
+          const computersSnapshot = await get(locationComputersRef);
+          const computersData = computersSnapshot.val();
 
-                  console.log("Computer Details:", computerDetails);
+          console.log("ComputerData:", computersData);
 
-                  if (computerDetails) {
-                    return {
-                      cpu: computerDetails.cpu || "",
-                      ram: computerDetails.ram || "",
-                      computerType: computerDetails.computerType || "",
-                      model: computerDetails.model || "",
-                    };
-                  } else {
-                    console.error("Computer details not found");
-                    return null;
-                  }
-                })
-                .catch((error) => {
-                  console.error("Error fetching computer details: ", error);
-                  return null;
-                });
-            } else {
-              console.error(`Location "${locationName}" does not exist for client "${clientName}"`);
-              return null;
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching locations: ", error);
-            return null;
-          });
+          // Find the key based on computerName
+          const computerKey = Object.keys(computersData).find((key) => computersData[key].name === computerName);
+
+          console.log("Computer Key:", computerKey);
+
+          // Use the computerKey to access the specific computer details
+          const computerDetails = computerKey ? computersData[computerKey] : null;
+
+          console.log("Computer Details:", computerDetails);
+
+          if (computerDetails) {
+            resolve({
+              cpu: computerDetails.cpu || "",
+              ram: computerDetails.ram || "",
+              computerType: computerDetails.computerType || "",
+              model: computerDetails.model || "",
+            });
+          } else {
+            console.error("Computer details not found");
+            resolve(null);
+          }
+        } else {
+          console.error(`Location "${locationName}" does not exist for client "${clientName}"`);
+          resolve(null);
+        }
       } else {
         console.error(`Client "${clientName}" does not exist`);
-        return null;
+        resolve(null);
       }
-    })
-    .catch((error) => {
-      console.error("Error fetching clients: ", error);
-      return null;
-    });
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+      reject(error);
+    }
+  });
 };
-

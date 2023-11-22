@@ -14,56 +14,93 @@
 
       <div id="computerAttributes">
         <!-- Display computer attributes here -->
-        <p id="cpu"></p>
-        <p id="ram"></p>
-        <p id="computerType"></p>
-        <p id="model"></p>
+        <p>CPU: <input type="text" id="cpu" readonly></p>
+        <p>RAM: <input type="text" id="ram" readonly></p>
+        <p>Computer Type: <input type="text" id="computerType" readonly></p>
+        <p>Model: <input type="text" id="model" readonly></p>
       </div>
 
       <button id="editButton">Edit</button>
+      <button id="saveButton" style="display: none;">Save</button>
       <button id="homeButton">Back to Home</button>
 
       <script type="module">
         import { getComputerDetails } from './firebase/Components/device.js';
-
+      
         // Add event listener for the "Back to Home" button
         const homeButton = document.getElementById("homeButton");
-          homeButton.addEventListener("click", () => {
-            window.location.href = "../../index.html";
-          });
-          
-        document.addEventListener("DOMContentLoaded", () => {
+        homeButton.addEventListener("click", () => {
+          window.location.href = "../../index.html";
+        });
+      
+        document.addEventListener("DOMContentLoaded", async () => {
           const params = new URLSearchParams(window.location.search);
           const clientName = params.get("client");
           const locationName = params.get("location");
           const computerName = params.get("computer");
-
+      
           console.log("Values passed into function: ", clientName, locationName, computerName);
           // Use the extracted information to fetch and display computer details
-          const computerDetails = getComputerDetails(clientName, locationName, computerName);
-          console.log("Computer Details:", computerDetails);
-
+          const computerDetails = await getComputerDetails(clientName, locationName, computerName);
+          console.log("Computer Details(in card.html):", computerDetails);
+      
           // Display computer attributes on the page
           if (computerDetails) {
-            document.getElementById("cpu").innerText = `CPU: ${computerDetails.cpu}`;
-            document.getElementById("ram").innerText = `RAM: ${computerDetails.ram}`;
-            document.getElementById("computerType").innerText = `Computer Type: ${computerDetails.computerType}`;
-            document.getElementById("model").innerText = `Model: ${computerDetails.model}`;
+            const cpuElement = document.getElementById("cpu");
+            const ramElement = document.getElementById("ram");
+            const computerTypeElement = document.getElementById("computerType");
+            const modelElement = document.getElementById("model");
+            const editButton = document.getElementById("editButton");
+            const saveButton = document.getElementById("saveButton");
+      
+            // Set initial values
+            cpuElement.value = computerDetails.cpu;
+            ramElement.value = computerDetails.ram;
+            computerTypeElement.value = computerDetails.computerType;
+            modelElement.value = computerDetails.model;
+      
+            // Function to toggle edit mode
+            const toggleEditMode = () => {
+              const isEditing = cpuElement.readOnly;
+              // Works backwards for some reason, doesn't work without the !
+              cpuElement.readOnly = !isEditing;
+              ramElement.readOnly = !isEditing;
+              computerTypeElement.readOnly = !isEditing;
+              modelElement.readOnly = !isEditing;
+      
+              // Show/hide the "Save" and "Cancel" buttons based on the edit mode
+              saveButton.style.display = isEditing ? "none" : "block";
+              editButton.innerText = isEditing ? "Edit" : "Cancel";
+            };
+      
+            editButton.addEventListener("click", toggleEditMode);
+    
+            saveButton.addEventListener("click", async () => {
+              // Implement logic to update the database with the new values
+              const updatedDetails = {
+                cpu: cpuElement.value,
+                ram: ramElement.value,
+                computerType: computerTypeElement.value,
+                model: modelElement.value,
+              };
+      
+              // Implement the function to update the database with the new values
+              // For now, logs the updated details
+              console.log("Updated Details:", updatedDetails);
+      
+              // Toggle back to read-only mode
+              toggleEditMode();
+            });
+      
+            // Initially set the form to read-only mode
+            toggleEditMode();
           } else {
             // Handle the case where computer details are not available
             console.error("Computer details not available");
           }
-
-          // Add event listener for the "Edit" button
-          const editButton = document.getElementById("editButton");
-          editButton.addEventListener("click", () => {
-            // Implement logic for editing computer details
-            // You can redirect to another page for editing or show a form on the same page
-          });
-
-          
         });
       </script>
+      
     </div>
   </body>
 </html>
