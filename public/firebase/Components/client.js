@@ -191,6 +191,7 @@ const displayLocation = (clientName2) => {
                                 button.addEventListener("click", () => {
 
                                 displayComputers(clientName, location.name); //when a location is clicked display the devices. 
+                                currLocation = location.name;
 
                                 
                                 })
@@ -215,7 +216,13 @@ const addClientButton = document.getElementById("addClientButton");
 addClientButton.addEventListener('click', addClient);
 const addComputerButton = document.getElementById("addComputerButton");
 const locationInput = document.getElementById('location');
-addComputerButton.addEventListener('click', addComputer);
+addComputerButton.addEventListener('click', () => {
+
+
+    const computerName = document.querySelector("#computer").value;
+    addComputer(currentClient, currLocation, computerName);
+
+});
 
 const addLocationButton = document.getElementById("addLocationButton");
 

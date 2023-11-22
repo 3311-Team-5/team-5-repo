@@ -1,20 +1,22 @@
 import { app } from './firebase.js';
 import { getDatabase, ref, set, push, get } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
 
-export const addComputer = () => {
-    const computerName = document.querySelector("#computer").value;
+export const addComputer = (currentClient2, currLocation2, computerName2) => {
+    const computerName = computerName2;
     
-    const clientName = prompt("Enter the client name:");
-        if (!clientName) {
-        alert("Client name cannot be empty.");
-        return;
-    }
+    const clientName = currentClient2;
+    //prompt("Enter the client name:");
+    //  if (!clientName) {
+    //  alert("Client name cannot be empty.");
+    //  return;
+    //}
 
-    const locationName = prompt("Enter the location name:");
-        if (!locationName) {
-        alert("Location name cannot be empty.");
-        return;
-    }
+    const locationName = currLocation2;
+    //prompt("Enter the location name:");
+    //  if (!locationName) {
+    //  alert("Location name cannot be empty.");
+    //  return;
+    //}
     
     const db = getDatabase(app);
   
