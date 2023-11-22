@@ -18,11 +18,7 @@ let currLocation = "";
 
 const resultList = document.getElementById("Result-List");
 
-
-
 const searchBar = (searchWord) => {
-
-    
 
     const dbRef = ref(getDatabase(app));
   
@@ -303,6 +299,7 @@ addComputerButton.addEventListener('click', () => {
     addComputer(currentClient, currLocation, computerName);
 
 });
+
 
 const addLocationButton = document.getElementById("addLocationButton");
 
