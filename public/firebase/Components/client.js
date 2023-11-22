@@ -10,6 +10,7 @@ const computerList = document.getElementById("comp-List");
 const locationList = document.getElementById("Location-List");
 let computerName = "";
 let currentClient = "";
+let currLocation = "";
 
 
 const displayClients = () => {
@@ -48,7 +49,7 @@ const displayClients = () => {
 
 };
 
-const displayComputers = (clientName2) => {
+const displayComputers = (clientName2,locationName ) => {
     const dbRef = ref(getDatabase(app));
   
     get(child(dbRef, "clients/"))
@@ -64,11 +65,12 @@ const displayComputers = (clientName2) => {
                 if (clientsData[key].locations) {
                     for (const locationKey in clientsData[key].locations) {
                         const location = clientsData[key].locations[locationKey];
+                        console.log(location);
 
 
                         
                         
-                      
+                        if(location.name == locationName){
                         // Check if the location has computers
                         if (location.computers) {
                             const clientHeading = document.createElement("h5");
@@ -91,7 +93,7 @@ const displayComputers = (clientName2) => {
                                 listItem.appendChild(button);
                                 computerList.appendChild(listItem);
                             }
-                        }
+                        }}
                     
                     }
                 }}
@@ -179,6 +181,7 @@ const displayLocation = (clientName2) => {
 
                     for (const locationKey in clientsData[key].locations) { //iterate through locations and create a list + buttons
                         const location = clientsData[key].locations[locationKey];
+                        console.log(location.name);
 
   
                                 const listItem = document.createElement("li");
@@ -187,7 +190,7 @@ const displayLocation = (clientName2) => {
                                 //add an event listener for further functionality here if needed
                                 button.addEventListener("click", () => {
 
-                                displayComputers(clientName); //when a location is clicked display the devices. 
+                                displayComputers(clientName, location.name); //when a location is clicked display the devices. 
 
                                 
                                 })
@@ -208,8 +211,6 @@ const displayLocation = (clientName2) => {
 
 
 
-
-
 const addClientButton = document.getElementById("addClientButton");
 addClientButton.addEventListener('click', addClient);
 const addComputerButton = document.getElementById("addComputerButton");
@@ -224,6 +225,7 @@ addLocationButton.addEventListener("click", () => {
     const locationName = locationInput.value.trim();
 
     addLocation(currentClient, locationName);
+
 }
 
 );

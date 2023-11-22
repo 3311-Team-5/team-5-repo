@@ -45,6 +45,8 @@ export const addLocation = (clientName, locationName) => {
             .then(() => {
               // Location added successfully
               alert(`Location "${locationName}" added for client "${clientName}"`);
+
+              
             })
             .catch((error) => {
               console.error(`Error adding location: ${error}`);
