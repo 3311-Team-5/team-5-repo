@@ -5,22 +5,30 @@ import { addComputer } from './device.js';
 import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
 
 const db = getDatabase(app);
+
 const clientList = document.getElementById("Client-List");
 const computerList = document.getElementById("comp-List");
 const locationList = document.getElementById("Location-List");
+
 let computerName = "";
 let currentClient = "";
 let currLocation = "";
- 
-/*
+
+
+const resultList = document.getElementById("Result-List");
+const searchInput = document.getElementById('Search Bar:');
+
+
 const searchBar = () => {
+
+    const searchWord = searchInput.value.trim();
 
     const dbRef = ref(getDatabase(app));
   
     get(child(dbRef, "clients/"))
         .then((snapshot) => {
             const clientsData = snapshot.val();
-            computerList.innerHTML = ""; // Clear the computer list
+            resultList.innerHTML = ""; // Clear the computer list
   
             for (const key in clientsData) {
                 const clientName = clientsData[key].client;
@@ -33,22 +41,27 @@ const searchBar = () => {
                         // Check if the location has computers
                         if (location.computers) {
                             for (const computerKey in location.computers) {
+
+
                                 const computer = location.computers[computerKey];
                                 computerName = computer.name;
-  
+
+
+                                if (((clientName == searchWord) || (location.name == searchWord) || (computerName == searchWord)) && (searchWord != "") ){
+
                                 const listItem = document.createElement("li");
                                 const button = document.createElement("button");
                                 button.textContent = `Client: ${clientName}, Location: ${location.name}, Computer: ${computerName}`;
                                 //add an event listener for further functionality here if needed
                                 button.addEventListener("click", () => {
                                     // document.getElementById("#deviceName").placeholder = "testing";
-                                    window.location.href = "../../card.html";
+                                    //window.location.href = "../../card.html";
                                     // addCompAtt(clientName, location.name, computerName);
                                 })
                                 // window.addEventListener("load", addCompAtt(clientName, location.name, computerName));
                                 listItem.appendChild(button);
-                                computerList.appendChild(listItem);
-                            }
+                                resultList.appendChild(listItem);
+                             } }
                         }
                     }
                 }
@@ -61,11 +74,11 @@ const searchBar = () => {
 
 
 };
-searchBar();
 
 
 
-*/
+
+
 
 
 const displayClients = () => {
@@ -273,7 +286,9 @@ const displayLocation = (clientName2) => {
 const addClientButton = document.getElementById("addClientButton");
 addClientButton.addEventListener('click', addClient);
 const addComputerButton = document.getElementById("addComputerButton");
+
 const locationInput = document.getElementById('location');
+
 addComputerButton.addEventListener('click', () => {
 
 
@@ -297,6 +312,12 @@ addLocationButton.addEventListener("click", () => {
 
 //displayLocation();
 displayClients();
+
+searchInput.addEventListener("input", () => {
+
+    searchBar();
+
+});
 //displayComputers();
 
 
