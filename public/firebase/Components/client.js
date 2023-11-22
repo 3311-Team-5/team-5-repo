@@ -9,6 +9,7 @@ const db = getDatabase(app);
 const clientList = document.getElementById("Client-List");
 const computerList = document.getElementById("comp-List");
 const locationList = document.getElementById("Location-List");
+const goButton = document.getElementById('Go!');
 
 let computerName = "";
 let currentClient = "";
@@ -16,12 +17,12 @@ let currLocation = "";
 
 
 const resultList = document.getElementById("Result-List");
-const searchInput = document.getElementById('Search Bar:');
 
 
-const searchBar = () => {
 
-    const searchWord = searchInput.value.trim();
+const searchBar = (searchWord) => {
+
+    
 
     const dbRef = ref(getDatabase(app));
   
@@ -55,7 +56,7 @@ const searchBar = () => {
                                 //add an event listener for further functionality here if needed
                                 button.addEventListener("click", () => {
                                     // document.getElementById("#deviceName").placeholder = "testing";
-                                    //window.location.href = "../../card.html";
+                                    window.location.href = "../../card.html";
                                     // addCompAtt(clientName, location.name, computerName);
                                 })
                                 // window.addEventListener("load", addCompAtt(clientName, location.name, computerName));
@@ -77,6 +78,12 @@ const searchBar = () => {
 
 
 
+
+//searchInput.addEventListener("input", () => {
+//
+  //  searchBar();
+
+//});
 
 
 
@@ -313,11 +320,15 @@ addLocationButton.addEventListener("click", () => {
 //displayLocation();
 displayClients();
 
-searchInput.addEventListener("input", () => {
+const searchInput = document.getElementById('Search');
+goButton.addEventListener("click", () => {
 
-    searchBar();
+    const searchWord = searchInput.value.trim();
+
+
+    searchBar(searchWord);
 
 });
 //displayComputers();
 
-
+displayClients();
