@@ -3,12 +3,21 @@ import { getDatabase, ref, set, push, get } from 'https://www.gstatic.com/fireba
 
 //once a client button is clicked function addLocation() give the option to add a Location to the client in the database
 //------------------------------------------------------------------------------------------------------------------------------
-export const addLocation = (clientName) => {
-    const locationName = prompt("Enter the location name:");
-    if (!locationName) {
-      alert("Location name cannot be empty.");
-      return;
-    }
+
+//const locationList = document.getElementById("Location-List");
+
+
+
+export const addLocation = (clientName, locationName) => {
+
+
+
+
+    //const locationName = prompt("Enter the location name:");
+    //if (!locationName) {
+     // alert("Location name cannot be empty.");
+     // return;
+   // }
   
     const db = getDatabase(app);
   
@@ -36,6 +45,8 @@ export const addLocation = (clientName) => {
             .then(() => {
               // Location added successfully
               alert(`Location "${locationName}" added for client "${clientName}"`);
+
+              
             })
             .catch((error) => {
               console.error(`Error adding location: ${error}`);
@@ -48,3 +59,6 @@ export const addLocation = (clientName) => {
         console.error(`Error querying the database: ${error}`);
       });
   };
+
+
+  

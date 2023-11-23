@@ -1,12 +1,88 @@
 import { app } from './firebase.js';
 import { addLocation } from './location.js';
+
 import { addComputer } from './device.js';
 import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
 
 const db = getDatabase(app);
+
 const clientList = document.getElementById("Client-List");
 const computerList = document.getElementById("comp-List");
+const locationList = document.getElementById("Location-List");
+const goButton = document.getElementById('Go!');
+
 let computerName = "";
+let currentClient = "";
+let currLocation = "";
+
+
+const resultList = document.getElementById("Result-List");
+
+const searchBar = (searchWord) => {
+
+    const dbRef = ref(getDatabase(app));
+  
+    get(child(dbRef, "clients/"))
+        .then((snapshot) => {
+            const clientsData = snapshot.val();
+            resultList.innerHTML = ""; // Clear the computer list
+  
+            for (const key in clientsData) {
+                const clientName = clientsData[key].client;
+  
+                // Check if the client has locations
+                if (clientsData[key].locations) {
+                    for (const locationKey in clientsData[key].locations) {
+                        const location = clientsData[key].locations[locationKey];
+  
+                        // Check if the location has computers
+                        if (location.computers) {
+                            for (const computerKey in location.computers) {
+
+
+                                const computer = location.computers[computerKey];
+                                computerName = computer.name;
+
+
+                                if (((clientName == searchWord) || (location.name == searchWord) || (computerName == searchWord)) && (searchWord != "") ){
+
+                                const listItem = document.createElement("li");
+                                const button = document.createElement("button");
+                                button.textContent = `Client: ${clientName}, Location: ${location.name}, Computer: ${computerName}`;
+                                //add an event listener for further functionality here if needed
+                                button.addEventListener("click", () => {
+                                    // document.getElementById("#deviceName").placeholder = "testing";
+                                    window.location.href = "../../card.html";
+                                    // addCompAtt(clientName, location.name, computerName);
+                                })
+                                // window.addEventListener("load", addCompAtt(clientName, location.name, computerName));
+                                listItem.appendChild(button);
+                                resultList.appendChild(listItem);
+                             } }
+                        }
+                    }
+                }
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching computers: ", error);
+        });
+
+
+
+};
+
+
+
+
+//searchInput.addEventListener("input", () => {
+//
+  //  searchBar();
+
+//});
+
+
+
 
 const displayClients = () => {
   const dbRef = ref(getDatabase(app));
@@ -24,8 +100,14 @@ const displayClients = () => {
               //listItem.textContent = clientName;
               button.textContent = clientName;
               button.addEventListener("click", () => {
-                  addLocation(clientName); //check for function that passes in some sort of path
-                  //alert("Clicked on client: " +clientName);
+                locationList.innerHTML = "";
+                computerList.innerHTML = "";
+                  
+                  displayLocation(clientName);
+                  currentClient = clientName;
+
+
+
               })
               listItem.appendChild(button);
               clientList.appendChild(listItem);
@@ -34,9 +116,13 @@ const displayClients = () => {
       .catch((error) => {
           console.error("Error fetching clients: ", error);
       });
+
+
+
+
 };
 
-const displayComputers = () => {
+const displayComputers = (clientName2,locationName ) => {
     const dbRef = ref(getDatabase(app));
   
     get(child(dbRef, "clients/"))
@@ -46,15 +132,23 @@ const displayComputers = () => {
   
             for (const key in clientsData) {
                 const clientName = clientsData[key].client;
-                console.log(clientName + ' ' + key);
-  
+            
+                if(clientName == clientName2){
                 // Check if the client has locations
                 if (clientsData[key].locations) {
                     for (const locationKey in clientsData[key].locations) {
                         const location = clientsData[key].locations[locationKey];
-  
+                        console.log(location);
+
+
+                        
+                        
+                        if(location.name == locationName){
                         // Check if the location has computers
                         if (location.computers) {
+                            const clientHeading = document.createElement("h5");
+                        clientHeading.textContent = `Client: ${clientName}`;
+                        computerList.appendChild(clientHeading);
                             for (const computerKey in location.computers) {
                                 const computer = location.computers[computerKey];
                                 const computerName = computer.name;
@@ -76,9 +170,10 @@ const displayComputers = () => {
                                 listItem.appendChild(button);
                                 computerList.appendChild(listItem);
                             }
-                        }
+                        }}
+                    
                     }
-                }
+                }}
             }
         })
         .catch((error) => {
@@ -132,6 +227,43 @@ const addClient = () => {
 const addClientButton = document.getElementById("addClientButton");
 addClientButton.addEventListener('click', addClient);
 const addComputerButton = document.getElementById("addComputerButton");
-addComputerButton.addEventListener('click', addComputer);
+
+const locationInput = document.getElementById('location');
+
+addComputerButton.addEventListener('click', () => {
+
+
+    const computerName = document.querySelector("#computer").value;
+    addComputer(currentClient, currLocation, computerName);
+
+});
+
+
+const addLocationButton = document.getElementById("addLocationButton");
+
+addLocationButton.addEventListener("click", () => {
+
+
+    const locationName = locationInput.value.trim();
+
+    addLocation(currentClient, locationName);
+
+}
+
+);
+
+//displayLocation();
 displayClients();
-displayComputers();
+
+const searchInput = document.getElementById('Search');
+goButton.addEventListener("click", () => {
+
+    const searchWord = searchInput.value.trim();
+
+
+    searchBar(searchWord);
+
+});
+//displayComputers();
+
+displayClients();

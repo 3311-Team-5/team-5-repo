@@ -3,10 +3,23 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techlog_Page_2</title>
+      <script type="module" src="script/Components/firebase.js"></script>
+</head>
+<body>
+</body>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Techlog</title>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script type="module" src="firebase/Components/firebase.js"></script>
     <script type="module" src="firebase/Components/auth.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="smallUIFixes copy.css"> 
   </head>
   <body>
     <div>
@@ -26,6 +39,25 @@
                   </div>
                 </nav>
             </div>
+
+            <div id="location_page">
+                <br><br>
+        
+                <h4>Locations</h4>
+                
+                <ul id="Location-List" class="Location-List"></ul>
+                <br><br>
+                <label for="location">Locations: </label>
+                <br><br>
+        
+                <input type="text" placeholder="Location Name" id="location">
+        
+        
+                <button id="addLocationButton">Add Location</button>
+            
+                <br><br>
+            </div>
+  
         </div>
     </div>
   </body>

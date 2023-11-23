@@ -11,12 +11,10 @@
       <!-- <script type="module" src="firebase/Components/location.js"></script>
       <script type="module" src="firebase/Components/device.js"></script>
       <script type="module" src="firebase/Components/db.js"></script> -->
-      <link rel="stylesheet" type="text/css" href="smallUIFixes.css">
-      <!-- <script>
-        $(function(){
-          $("#nav-placeholder").load("navbar.html");
-        });
-      </script> -->
+      <link rel="stylesheet" type="text/css" href="smallUIFixes.css">  <!-- small UI changes-->
+      <link rel="stylesheet" type="text/css" href="smallUIFixes copy.css">
+      <link rel="stylesheet" type="text/css" href="smallUIFixes copy 2.css">  
+      <link rel="stylesheet" type="text/css" href="smallUIFixes copy 3.css"> 
   </head>
   <body>
     <div id="app">
@@ -29,7 +27,7 @@
         <input type="password" placeholder="Password" id="userPassword">
         <br><br>
         <!-- <button id="signUpButton">Sign Up</button> -->
-        <button id="signInButton">Sign In</button>
+        <button id="signInButton">Sign In</button> 
       </div>
       <div id="authenticated-container" style="display: none;">
         <nav class="navbar navbar-default">
@@ -44,8 +42,28 @@
             </ul>
           </div>
         </nav>
-        <h3>Landing</h3>
-        <h4>Clients:</h4>
+
+        
+        <h3 style="color: #FFFFFF; background-color: #3498db; font-size: 30px;"><strong><br>TechLog: Simplifying I.T. Organization!<br></strong></h3>
+
+
+
+        <br><br>
+        <label for="searchBar"> Quick LookUp: </label>
+        <input type="text" placeholder="Search" id= "Search">
+
+        <button id="Go!">Go!</button>
+        
+        <br><br>
+        <label for="results">Results: </label>
+
+        <ul id="Result-List" class="Result-List"></ul>
+          <br><br>
+        
+
+
+
+        <h4 style="color: #FFFFFF; background-color: black;">Clients:</h4>
 
         <ul id="Client-List" class="Client-List"></ul>
         <br><br>
@@ -63,19 +81,40 @@
         <button id="addClientButton">Add Client</button>
         
         <br><br>
+
+
+        <h4 style="color: #FFFFFF; background-color: black;">Locations:</h4>
+          <!--h4>Locations</h4-->
+          
+          
+          <ul id="Location-List" class="Location-List"></ul>
+          <br><br>
+          <label for="location">Locations: </label>
+          
+
+          <input type="text" placeholder="Location Name" id="location">
+          <br><br>
+  
+          <button id="addLocationButton">Add Location</button>
         
+          <br><br>
+
+
+        
+
+        <br><br>
+        <!--h4>Computers:</h4-->
+        <h4 style="color: #FFFFFF; background-color: black;">Computers:</h4>
+
+        <ul id="comp-List" class="comp-List"></ul>
+        <br><br>
+
         <label for="computer">Computer: </label>
         <input type="text" placeholder="Computer Name" id="computer">
         <br><br>
-        <!-- <label for="location">Location: </label>
-        <input type="text" placeholder="Location" id="location">
-        <br><br> -->
+
         <button id="addComputerButton">Add Computer</button>
 
-        <br><br>
-        <h4>Computers:</h4>
-
-        <ul id="comp-List" class="comp-List"></ul>
         <br><br>
         <!-- <label for="brand">Computer Brand: </label>
         <input type="text" placeholder="Brand" id="brand">

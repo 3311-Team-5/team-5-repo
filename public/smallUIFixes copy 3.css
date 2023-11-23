@@ -1,0 +1,20 @@
+/* Remove bullets and add space between buttons */
+.Result-List {
+    list-style: none; /* Remove bullets */
+}
+
+.Result-List li {
+    margin-bottom: 10px; /* Add space between buttons */
+}
+
+.Result-List button {
+    padding: 5px 10px; /* Add padding to the buttons */
+    background-color: lightgrey; /* Customize button background color */
+    color: black; /* Set text color to white */
+    border: none; /* Remove button border */
+    cursor: pointer;
+}
+
+.Result-List button:hover {
+    background-color: gray; /* Change background color on hover */
+}
