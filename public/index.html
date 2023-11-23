@@ -4,17 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Techlog</title>
-      <script type="module" src="script/Components/firebase.js"></script>
+      <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+      <script type="module" src="firebase/Components/firebase.js"></script>
       <script type="module" src="firebase/Components/auth.js"></script>
       <script type="module" src="firebase/Components/client.js"></script>
       <!-- <script type="module" src="firebase/Components/location.js"></script>
       <script type="module" src="firebase/Components/device.js"></script>
       <script type="module" src="firebase/Components/db.js"></script> -->
-      <link rel="stylesheet" type="text/css" href="smallUIFixes.css">  <!-- small UI changes
+      <link rel="stylesheet" type="text/css" href="smallUIFixes.css">
+      <!-- <script>
+        $(function(){
+          $("#nav-placeholder").load("navbar.html");
+        });
+      </script> -->
   </head>
   <body>
     <div id="app">
-      <!-- <script src="./routes.js"></script> -->
       <div id="login-container">
         <h2>Login</h2>
         <label for="userEmail">Email: </label>
@@ -27,6 +32,18 @@
         <button id="signInButton">Sign In</button>
       </div>
       <div id="authenticated-container" style="display: none;">
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand">WebSiteName</a> 
+              <!-- PUT LOGO HERE^^^^^^^^^^^^^^^ -->
+            </div>
+            <ul class="nav navbar-nav">
+              <!-- ADD SEARCH FUNCTION HERE -->
+              <li id="signOut"><button id="signOutButton">Sign Out</button></li>
+            </ul>
+          </div>
+        </nav>
         <h3>Landing</h3>
         <h4>Clients:</h4>
 
@@ -100,7 +117,9 @@
         <input type="text" placeholder="Ex. MB, GB, etc." id="hdSize">
         <br><br>
         <button id="addDeviceButton">Add Device</button> -->
-        <button id="signOutButton">Sign Out</button>
+
+        <!-- <button id="signOutButton">Sign Out</button> -->
+
       </div>
     </div>
   </body>

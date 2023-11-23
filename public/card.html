@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Techlog</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script type="module" src="firebase/Components/firebase.js"></script>
     <script type="module" src="firebase/Components/auth.js"></script>
     <script type="module" src="firebase/Components/device.js"></script>
@@ -11,6 +12,22 @@
   <body>
     <div id="cards">
       <h3>CARD PAGE</h3>
+      <div id="card-nav">
+        <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand">WebSiteName</a> 
+              <!-- PUT LOGO HERE^^^^^^^^^^^^^^^ -->
+            </div>
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="../../index.html">Home</a></li>
+              <li id="back"><a href="../../devices.html">Back</a></li>
+              <li id="home"><a href="#">Home</a></li>
+              <li id="signOut"><button id="signOutButton">Sign Out</button></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
 
       <div id="computerAttributes">
         <!-- Display computer attributes here -->
@@ -99,7 +116,11 @@
           }
         });
       </script>
-      
     </div>
+    <script>
+      $(function(){
+        $("#nav-placeholder").load("navbar.html");
+      });
+      </script>
   </body>
 </html>

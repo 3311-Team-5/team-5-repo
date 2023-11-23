@@ -70,6 +70,7 @@ const login = async () => {
 };
 
 const logout = async () => {
+    console.log("INSIDE LOGOUT!!!!");
     // const user = auth.currentUser;
     // if(user)
     // {

@@ -129,18 +129,6 @@ const addClient = () => {
     }) 
 }
 
-const addCompAtt = (client, locationName, comp) => { // POTENTIAL SOLUTION TO TRANSFERRING INFORMATION TO DIFFERENT HTML?
-    console.log(comp);
-    const deviceName = document.getElementById("deviceName");
-    if(deviceName){
-      document.getElementById("deviceName").placeholder = "testing";
-      location.reload();
-    }else{
-      console.log("DOES NOT EXIST!!!!");
-    }
-  }
-  
-
 const addClientButton = document.getElementById("addClientButton");
 addClientButton.addEventListener('click', addClient);
 const addComputerButton = document.getElementById("addComputerButton");
