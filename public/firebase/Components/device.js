@@ -1,6 +1,8 @@
 import { app } from './firebase.js';
 import { getDatabase, ref, set, push, get, child, update } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
 
+const computerList = document.getElementById("comp-List");
+
 export const addComputer = (currentClient2, currLocation2, computerName2) => {
     const computerName = computerName2;
     
@@ -71,6 +73,66 @@ export const addComputer = (currentClient2, currLocation2, computerName2) => {
       });
 };
 
+export const displayComputers = (clientName2,locationName ) => {
+  const dbRef = getDatabase(app);
+
+  get(ref(dbRef, "clients/"))
+      .then((snapshot) => {
+          const clientsData = snapshot.val();
+          computerList.innerHTML = ""; // Clear the computer list
+
+          for (const key in clientsData) {
+              const clientName = clientsData[key].client;
+          
+              if(clientName == clientName2){
+              // Check if the client has locations
+              if (clientsData[key].locations) {
+                  for (const locationKey in clientsData[key].locations) {
+                      const location = clientsData[key].locations[locationKey];
+                      console.log(location);
+
+
+                      
+                      
+                      if(location.name == locationName){
+                      // Check if the location has computers
+                      if (location.computers) {
+                          const clientHeading = document.createElement("h5");
+                      clientHeading.textContent = `Client: ${clientName}`;
+                      computerList.appendChild(clientHeading);
+                          for (const computerKey in location.computers) {
+                            const cKey = computerKey;
+                            const computer = location.computers[computerKey];
+                              const computerName = computer.name;
+
+                              const listItem = document.createElement("li");
+                              const button = document.createElement("button");
+                              button.textContent = `Client: ${clientName}, Location: ${location.name}, Computer: ${computerName}`;
+                              
+                              // Use a function to capture the correct computerKey
+                              const clickHandler = (computerKey) => {
+                                  return () => {
+                                      const url = `../../card.html?key=${key}&lkey=${locationKey}&ckey=${cKey}&client=${clientName}&location=${location.name}&computer=${computerName}`; // ADDED UNIQUE KEY AND LOCATION KEY TO URL
+                                      window.location.href = url;
+                                  };
+                              };
+                              
+                              button.addEventListener("click", clickHandler(computerName));
+
+                              listItem.appendChild(button);
+                              computerList.appendChild(listItem);
+                          }
+                      }}
+                  
+                  }
+              }}
+          }
+      })
+      .catch((error) => {
+          console.error("Error fetching computers: ", error);
+      });
+};
+
 export const getComputerDetails = (clientName, locationName, computerName) => {
   return new Promise(async (resolve, reject) => {
     console.log("Parameters:", clientName, locationName, computerName);
@@ -135,7 +197,7 @@ export const getComputerDetails = (clientName, locationName, computerName) => {
   });
 };
 
-export const saveUpdate = (key, lkey, cpu, ram, computerType, model) => {
+export const saveUpdate = (key, lkey, ckey, cpu, ram, computerType, model) => {
   const db = getDatabase(app);
 
   // Implement logic to update the database with the new values
@@ -150,7 +212,7 @@ export const saveUpdate = (key, lkey, cpu, ram, computerType, model) => {
   // For now, logs the updated details
   console.log("Updated Details:", updatedDetails);
 
-  const newKey = push(ref(db, `clients/${key}/locations/${lkey}/computers`));
+  const newKey = ref(db, `clients/${key}/locations/${lkey}/computers/${ckey}`);
 
   update(newKey, updatedDetails);
 }

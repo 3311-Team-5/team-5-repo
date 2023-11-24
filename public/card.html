@@ -54,6 +54,7 @@
           const params = new URLSearchParams(window.location.search);
           const key = params.get("key");
           const locationKey = params.get("lkey");
+          const computerKey = params.get("ckey");
           const clientName = params.get("client");
           const locationName = params.get("location");
           const computerName = params.get("computer");
@@ -80,14 +81,9 @@
       
             // Function to toggle edit mode
             const toggleEditMode = () => {
-              console.log("CPU READ is " + cpuElement.readOnly);
-              console.log("RAM READ is " + ramElement.readOnly);
-              console.log("COMPUTER TYPE READ is " + computerTypeElement.readOnly);
-              console.log("MODEL READ is " + modelElement.readOnly);
 
               const isEditing = cpuElement.readOnly;
               // Works backwards for some reason, doesn't work without the !
-              console.log("isEditing is " + isEditing);
               cpuElement.readOnly = !isEditing;
               ramElement.readOnly = !isEditing;
               computerTypeElement.readOnly = !isEditing;
@@ -102,7 +98,7 @@
     
             saveButton.addEventListener("click", async () => {
               
-              saveUpdate(key, locationKey, cpuElement.value, ramElement.value, computerTypeElement.value, modelElement.value);
+              saveUpdate(key, locationKey, computerKey, cpuElement.value, ramElement.value, computerTypeElement.value, modelElement.value);
 
               // Toggle back to read-only mode
               toggleEditMode();
@@ -121,6 +117,6 @@
       $(function(){
         $("#nav-placeholder").load("navbar.html");
       });
-      </script>
+    </script>
   </body>
 </html>
