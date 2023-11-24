@@ -14,10 +14,16 @@
 
       <div id="computerAttributes">
         <!-- Display computer attributes here -->
-        <p>CPU: <input type="text" id="cpu" ></p>
-        <p>RAM: <input type="text" id="ram" ></p>
-        <p>Computer Type: <input type="text" id="computerType" ></p>
+        <p>Computer Name: <input type="text" id="cname" ></p> 
+        <p>Laptop/Desktop: <input type="text" id="computerType" ></p>
         <p>Model: <input type="text" id="model" ></p>
+        <p>CPU: <input type="text" id="cpu" ></p>
+        <p>RAM (gb): <input type="text" id="ram" ></p>
+        <p>Storage Type: <input type="text" id="storagetype" ></p>
+        <p>Storage Amount (gb): <input type="text" id="storageamt" ></p>
+        <p>Windows Key: <input type="text" id="windowsKey" ></p>
+        <p>Office Key: <input type="text" id="officeKey" ></p>
+        <p>Username: <input type="text" id="username" ></p>
       </div>
 
       <button id="editButton">Edit</button>
@@ -53,6 +59,14 @@
             const ramElement = document.getElementById("ram");
             const computerTypeElement = document.getElementById("computerType");
             const modelElement = document.getElementById("model");
+            const storageTypeElement = document.getElementById("storagetype");
+            const storageAmtElement = document.getElementById("storageamt");
+            const wKeyElement = document.getElementById("windowsKey");
+            const oKeyElement = document.getElementById("officeKey");
+            const usernameElement = document.getElementById("username");
+            const computerNameElement = document.getElementById("cname");
+
+            //do we need these to be const??
             const editButton = document.getElementById("editButton");
             const saveButton = document.getElementById("saveButton");
       
@@ -61,6 +75,12 @@
             ramElement.value = computerDetails.ram;
             computerTypeElement.value = computerDetails.computerType;
             modelElement.value = computerDetails.model;
+            storageTypeElement.value = computerDetails.storageType;
+            storageAmtElement.value = computerDetails.storageAmt;
+            wKeyElement.value = computerDetails.windowsKey;
+            oKeyElement.value = computerDetails.officeKey;
+            usernameElement.value = computerDetails.username;
+            computerNameElement.value = computerName;
       
             // Function to toggle edit mode
             const toggleEditMode = () => {
@@ -70,12 +90,17 @@
               console.log("MODEL READ is " + modelElement.readOnly);
 
               const isEditing = cpuElement.readOnly;
-              // Works backwards for some reason, doesn't work without the !
-              console.log("isEditing is " + isEditing);
+              
               cpuElement.readOnly = !isEditing;
               ramElement.readOnly = !isEditing;
               computerTypeElement.readOnly = !isEditing;
               modelElement.readOnly = !isEditing;
+              storageTypeElement.readOnly = !isEditing;
+              storageAmtElement.readOnly = !isEditing;
+              wKeyElement.readOnly = !isEditing;
+              oKeyElement.readOnly = !isEditing;
+              usernameElement.readOnly = !isEditing;
+              computerNameElement.readOnly = !isEditing;
       
               // Show/hide the "Save" and "Cancel" buttons based on the edit mode
               saveButton.style.display = isEditing ? "block" : "none";
@@ -86,7 +111,7 @@
     
             saveButton.addEventListener("click", async () => {
               // Implement logic to update the database with the new values
-              saveUpdate(key, locationKey, computerKey, cpuElement.value, ramElement.value, computerTypeElement.value, modelElement.value);
+              saveUpdate(key, locationKey, computerKey, cpuElement.value, ramElement.value, computerTypeElement.value, modelElement.value, storageTypeElement.value, storageAmtElement.value, wKeyElement.value, oKeyElement.value, usernameElement.value, computerNameElement.value);
 
               const updatedDetails = {
                 cpu: cpuElement.value,
