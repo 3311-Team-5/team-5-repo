@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Techlog</title>
+    <style>
+      #notes {
+        width: 25%;
+        height: 200px;
+        resize: vertical;
+      }
+    </style>
+    <style>
+      #history {
+        width: 40%;
+        height: 300px;
+        resize: vertical;
+      }
+    </style>
     <script type="module" src="firebase/Components/firebase.js"></script>
     <script type="module" src="firebase/Components/auth.js"></script>
     <script type="module" src="firebase/Components/device.js"></script>
@@ -24,6 +38,8 @@
         <p>Windows Key: <input type="text" id="windowsKey" ></p>
         <p>Office Key: <input type="text" id="officeKey" ></p>
         <p>Username: <input type="text" id="username" ></p>
+        <p>Notes: <br><textarea id="notes"></textarea></p>
+        <p>Work History: <br><textarea id="history"></textarea></p>
       </div>
 
       <button id="editButton">Edit</button>
@@ -47,6 +63,8 @@
           const locationName = params.get("location");
           const computerName = params.get("computer");
           const computerKey = params.get("ckey");
+          const notes = params.get("notes");
+          const history = params.get("history");
 
           console.log("Values passed into function: ", clientName, locationName, computerName);
           // Use the extracted information to fetch and display computer details
@@ -65,6 +83,8 @@
             const oKeyElement = document.getElementById("officeKey");
             const usernameElement = document.getElementById("username");
             const computerNameElement = document.getElementById("cname");
+            const notesElement = document.getElementById("notes");
+            const historyElement = document.getElementById("history");
 
             //do we need these to be const??
             const editButton = document.getElementById("editButton");
@@ -81,6 +101,8 @@
             oKeyElement.value = computerDetails.officeKey;
             usernameElement.value = computerDetails.username;
             computerNameElement.value = computerName;
+            notesElement.value = computerDetails.notes;
+            historyElement.value = computerDetails.history;
       
             // Function to toggle edit mode
             const toggleEditMode = () => {
@@ -101,6 +123,8 @@
               oKeyElement.readOnly = !isEditing;
               usernameElement.readOnly = !isEditing;
               computerNameElement.readOnly = !isEditing;
+              notesElement.readOnly = !isEditing;
+              historyElement.readOnly = !isEditing;
       
               // Show/hide the "Save" and "Cancel" buttons based on the edit mode
               saveButton.style.display = isEditing ? "block" : "none";
@@ -111,7 +135,7 @@
     
             saveButton.addEventListener("click", async () => {
               // Implement logic to update the database with the new values
-              saveUpdate(key, locationKey, computerKey, cpuElement.value, ramElement.value, computerTypeElement.value, modelElement.value, storageTypeElement.value, storageAmtElement.value, wKeyElement.value, oKeyElement.value, usernameElement.value, computerNameElement.value);
+              saveUpdate(key, locationKey, computerKey, cpuElement.value, ramElement.value, computerTypeElement.value, modelElement.value, storageTypeElement.value, storageAmtElement.value, wKeyElement.value, oKeyElement.value, usernameElement.value, computerNameElement.value, notesElement.value, historyElement.value);
 
               const updatedDetails = {
                 cpu: cpuElement.value,

@@ -26,6 +26,8 @@ export const addComputer = () => {
     const wKey = prompt("Enter Windows Key:");
     const oKey = prompt("Enter Office Key:");
     const username = prompt("Enter Username:");
+    const notes = "";
+    const history = "";
 
     const db = getDatabase(app);
   
@@ -58,6 +60,8 @@ export const addComputer = () => {
               windowsKey: wKey,
               officeKey: oKey,
               username: username,
+              notes: notes,
+              history: history,
             })
               .then(() => {
                 // Computer added successfully
@@ -127,6 +131,8 @@ export const getComputerDetails = (clientName, locationName, computerName) => {
               windowsKey: computerDetails.windowsKey || "",
               officeKey: computerDetails.officeKey || "",
               username: computerDetails.username || "",
+              notes: computerDetails.notes || "",
+              history: computerDetails.history || "",
             });
           } else {
             console.error("Computer details not found");
@@ -147,7 +153,7 @@ export const getComputerDetails = (clientName, locationName, computerName) => {
   });
 };
 
-export const saveUpdate = (key, lkey, ckey, cpu, ram, computerType, model, storageType, storageAmt, windowsKey, officeKey, username, computerName) => {
+export const saveUpdate = (key, lkey, ckey, cpu, ram, computerType, model, storageType, storageAmt, windowsKey, officeKey, username, computerName, notes, history) => {
   const db = getDatabase(app);
 
   // Implement logic to update the database with the new values
@@ -162,6 +168,8 @@ export const saveUpdate = (key, lkey, ckey, cpu, ram, computerType, model, stora
     officeKey: officeKey,
     username: username,
     computerName: computerName,
+    notes: notes,
+    history: history,
   };
 
   // Implement the function to update the database with the new values
