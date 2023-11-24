@@ -14,10 +14,10 @@
 
       <div id="computerAttributes">
         <!-- Display computer attributes here -->
-        <p>CPU: <input type="text" id="cpu" readonly></p>
-        <p>RAM: <input type="text" id="ram" readonly></p>
-        <p>Computer Type: <input type="text" id="computerType" readonly></p>
-        <p>Model: <input type="text" id="model" readonly></p>
+        <p>CPU: <input type="text" id="cpu" ></p>
+        <p>RAM: <input type="text" id="ram" ></p>
+        <p>Computer Type: <input type="text" id="computerType" ></p>
+        <p>Model: <input type="text" id="model" ></p>
       </div>
 
       <button id="editButton">Edit</button>
@@ -40,7 +40,8 @@
           const clientName = params.get("client");
           const locationName = params.get("location");
           const computerName = params.get("computer");
-      
+          const computerKey = params.get("ckey");
+
           console.log("Values passed into function: ", clientName, locationName, computerName);
           // Use the extracted information to fetch and display computer details
           const computerDetails = await getComputerDetails(clientName, locationName, computerName);
@@ -85,7 +86,7 @@
     
             saveButton.addEventListener("click", async () => {
               // Implement logic to update the database with the new values
-              saveUpdate(key, locationKey, cpuElement.value, ramElement.value, computerTypeElement.value, modelElement.value);
+              saveUpdate(key, locationKey, computerKey, cpuElement.value, ramElement.value, computerTypeElement.value, modelElement.value);
 
               const updatedDetails = {
                 cpu: cpuElement.value,

@@ -133,7 +133,7 @@ export const getComputerDetails = (clientName, locationName, computerName) => {
   });
 };
 
-export const saveUpdate = (key, lkey, cpu, ram, computerType, model) => {
+export const saveUpdate = (key, lkey, ckey, cpu, ram, computerType, model) => {
   const db = getDatabase(app);
 
   // Implement logic to update the database with the new values
@@ -148,7 +148,7 @@ export const saveUpdate = (key, lkey, cpu, ram, computerType, model) => {
   // For now, logs the updated details
   console.log("Updated Details:", updatedDetails);
 
-  const newKey = push(ref(db, `clients/${key}/locations/${lkey}/computers`));
+  const newKey = ref(db, `clients/${key}/locations/${lkey}/computers/${ckey}`);
 
   update(newKey, updatedDetails);
 };

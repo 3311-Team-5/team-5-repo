@@ -55,6 +55,7 @@ const displayComputers = () => {
                         // Check if the location has computers
                         if (location.computers) {
                             for (const computerKey in location.computers) {
+                                const cKey = computerKey;
                                 const computer = location.computers[computerKey];
                                 const computerName = computer.name;
   
@@ -65,7 +66,7 @@ const displayComputers = () => {
                                 // Use a function to capture the correct computerKey
                                 const clickHandler = (computerKey) => {
                                     return () => {
-                                        const url = `../../card.html?key=${key}&lkey=${locationKey}&client=${clientName}&location=${location.name}&computer=${computerName}`;
+                                        const url = `../../card.html?ckey=${cKey}&key=${key}&lkey=${locationKey}&client=${clientName}&location=${location.name}&computer=${computerName}`;
                                         window.location.href = url;
                                     };
                                 };
