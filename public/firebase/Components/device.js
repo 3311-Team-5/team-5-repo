@@ -1,5 +1,5 @@
 import { app } from './firebase.js';
-import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
+import { getDatabase, ref, set, push, get, child, update } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
 
 export const addComputer = () => {
     const computerName = document.querySelector("#computer").value;
@@ -131,4 +131,24 @@ export const getComputerDetails = (clientName, locationName, computerName) => {
       reject(error);
     }
   });
+};
+
+export const saveUpdate = (key, lkey, cpu, ram, computerType, model) => {
+  const db = getDatabase(app);
+
+  // Implement logic to update the database with the new values
+  const updatedDetails = {
+    cpu: cpu,
+    ram: ram,
+    computerType: computerType,
+    model: model,
+  };
+
+  // Implement the function to update the database with the new values
+  // For now, logs the updated details
+  console.log("Updated Details:", updatedDetails);
+
+  const newKey = push(ref(db, `clients/${key}/locations/${lkey}/computers`));
+
+  update(newKey, updatedDetails);
 };

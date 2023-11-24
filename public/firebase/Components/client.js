@@ -65,7 +65,7 @@ const displayComputers = () => {
                                 // Use a function to capture the correct computerKey
                                 const clickHandler = (computerKey) => {
                                     return () => {
-                                        const url = `../../card.html?client=${clientName}&location=${location.name}&computer=${computerName}`;
+                                        const url = `../../card.html?key=${key}&lkey=${locationKey}&client=${clientName}&location=${location.name}&computer=${computerName}`;
                                         window.location.href = url;
                                     };
                                 };
