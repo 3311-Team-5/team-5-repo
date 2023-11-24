@@ -1,7 +1,6 @@
 import { app } from './firebase.js';
-import { addLocation } from './location.js';
-
-import { addComputer } from './device.js';
+import { addLocation, displayLocation } from './location.js';
+import { addComputer, displayComputers } from './device.js';
 import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
 
 const db = getDatabase(app);
@@ -14,7 +13,6 @@ const goButton = document.getElementById('Go!');
 let computerName = "";
 let currentClient = "";
 let currLocation = "";
-
 
 const resultList = document.getElementById("Result-List");
 
@@ -67,22 +65,7 @@ const searchBar = (searchWord) => {
         .catch((error) => {
             console.error("Error fetching computers: ", error);
         });
-
-
-
 };
-
-
-
-
-//searchInput.addEventListener("input", () => {
-//
-  //  searchBar();
-
-//});
-
-
-
 
 const displayClients = () => {
   const dbRef = ref(getDatabase(app));
@@ -94,21 +77,30 @@ const displayClients = () => {
 
           for (const key in clientsData) {
               const clientName = clientsData[key].client;
+              const uid = key;
 
               const listItem = document.createElement("li");
               const button = document.createElement("button");
               //listItem.textContent = clientName;
               button.textContent = clientName;
-              button.addEventListener("click", () => {
-                locationList.innerHTML = "";
-                computerList.innerHTML = "";
+
+              const clientClick = (client) => {
+                return () => {
+                    const url = `../../location.html?key=${uid}&clientName=${client}`;
+                    window.location.href = url;
+                }
+              }
+
+            //   button.addEventListener("click", () => {
+            //     locationList.innerHTML = "";
+            //     computerList.innerHTML = "";
                   
-                  displayLocation(clientName);
-                  currentClient = clientName;
+            //       displayLocation(clientName);
+            //       currentClient = clientName;
+            //   })
 
+            button.addEventListener("click", clientClick(clientName));
 
-
-              })
               listItem.appendChild(button);
               clientList.appendChild(listItem);
           }
@@ -116,71 +108,7 @@ const displayClients = () => {
       .catch((error) => {
           console.error("Error fetching clients: ", error);
       });
-
-
-
-
 };
-
-const displayComputers = (clientName2,locationName ) => {
-    const dbRef = ref(getDatabase(app));
-  
-    get(child(dbRef, "clients/"))
-        .then((snapshot) => {
-            const clientsData = snapshot.val();
-            computerList.innerHTML = ""; // Clear the computer list
-  
-            for (const key in clientsData) {
-                const clientName = clientsData[key].client;
-            
-                if(clientName == clientName2){
-                // Check if the client has locations
-                if (clientsData[key].locations) {
-                    for (const locationKey in clientsData[key].locations) {
-                        const location = clientsData[key].locations[locationKey];
-                        console.log(location);
-
-
-                        
-                        
-                        if(location.name == locationName){
-                        // Check if the location has computers
-                        if (location.computers) {
-                            const clientHeading = document.createElement("h5");
-                        clientHeading.textContent = `Client: ${clientName}`;
-                        computerList.appendChild(clientHeading);
-                            for (const computerKey in location.computers) {
-                                const computer = location.computers[computerKey];
-                                const computerName = computer.name;
-  
-                                const listItem = document.createElement("li");
-                                const button = document.createElement("button");
-                                button.textContent = `Client: ${clientName}, Location: ${location.name}, Computer: ${computerName}`;
-                                
-                                // Use a function to capture the correct computerKey
-                                const clickHandler = (computerKey) => {
-                                    return () => {
-                                        const url = `../../card.html?key=${key}&lkey=${locationKey}&client=${clientName}&location=${location.name}&computer=${computerName}`; // ADDED UNIQUE KEY AND LOCATION KEY TO URL
-                                        window.location.href = url;
-                                    };
-                                };
-                                
-                                button.addEventListener("click", clickHandler(computerName));
-
-                                listItem.appendChild(button);
-                                computerList.appendChild(listItem);
-                            }
-                        }}
-                    
-                    }
-                }}
-            }
-        })
-        .catch((error) => {
-            console.error("Error fetching computers: ", error);
-        });
-};
-
 
 const addClient = () => {
     const client = document.querySelector("#client").value;
@@ -239,22 +167,6 @@ addComputerButton.addEventListener('click', () => {
 });
 
 
-const addLocationButton = document.getElementById("addLocationButton");
-
-addLocationButton.addEventListener("click", () => {
-
-
-    const locationName = locationInput.value.trim();
-
-    addLocation(currentClient, locationName);
-
-}
-
-);
-
-//displayLocation();
-displayClients();
-
 const searchInput = document.getElementById('Search');
 goButton.addEventListener("click", () => {
 
@@ -264,6 +176,5 @@ goButton.addEventListener("click", () => {
     searchBar(searchWord);
 
 });
-//displayComputers();
 
 displayClients();

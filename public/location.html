@@ -3,22 +3,11 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Techlog_Page_2</title>
-      <script type="module" src="script/Components/firebase.js"></script>
-</head>
-<body>
-</body>
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Techlog</title>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script type="module" src="firebase/Components/firebase.js"></script>
     <script type="module" src="firebase/Components/auth.js"></script>
-
+    <script type="module" src="firebase/Components/firebase.js"></script>
+    <script type="module" src="firebase/Components/location.js"></script>
     <link rel="stylesheet" type="text/css" href="smallUIFixes copy.css"> 
   </head>
   <body>
@@ -33,8 +22,7 @@
                     </div>
                     <ul class="nav navbar-nav">
                       <li id="back"><a href="../../index.html">Back</a></li>
-                      <li id="home"><a href="#">Home</a></li>
-                      <li id="signOut"><button id="signOutButton">Sign Out</button></li>
+                      <!-- <li id="signOut"><button id="signOutButton">Sign Out</button></li> -->
                     </ul>
                   </div>
                 </nav>
@@ -43,7 +31,7 @@
             <div id="location_page">
                 <br><br>
         
-                <h4>Locations</h4>
+                <h4 style="color: #FFFFFF; background-color: black;">Locations:</h4>
                 
                 <ul id="Location-List" class="Location-List"></ul>
                 <br><br>
@@ -52,12 +40,38 @@
         
                 <input type="text" placeholder="Location Name" id="location">
         
-        
                 <button id="addLocationButton">Add Location</button>
-            
+
                 <br><br>
             </div>
-  
+            <script type="module">
+                import { addLocation, displayLocation } from './firebase/Components/location.js';
+                const locationList = document.getElementById("Location-List");
+                // const computerList = document.getElementById("comp-List");
+
+                let currentClient = "";
+                let currLocation = "";
+
+                document.addEventListener("DOMContentLoaded", async () => {
+                    const params = new URLSearchParams(window.location.search);
+                    const key = params.get("key");
+                    const clientName = params.get("clientName");
+
+                    // const clientDetails = await getClientDetails(key, clientName);
+
+                    locationList.innerHTML = "";
+                    // computerList.innerHTML = "";
+                    displayLocation(key, clientName);
+                    currentClient = clientName;
+                });
+
+                const locationInput = document.getElementById('location');
+
+                addLocationButton.addEventListener("click", () => {
+                  const locationName = locationInput.value.trim();
+                    addLocation(currentClient, locationName);
+                });
+            </script>
         </div>
     </div>
   </body>
