@@ -59,12 +59,10 @@ export const addLocation = (clientName, locationName) => {
     });
 };
 
-export const displayLocation = (key, clientName2) => {
+export const displayLocation = (clientName2) => {
   //currentClient = clientName2;
-  console.log(app);
   // const dbRef = getDatabase(app);
   const dbRef = ref(getDatabase());
-  console.log(dbRef)
   locationList.innerHTML = ""; //clear location list
 
   get(child(dbRef, `clients/`))
@@ -91,14 +89,23 @@ export const displayLocation = (key, clientName2) => {
                               const button = document.createElement("button");
                               button.textContent = `Location: ${location.name}`;
                               //add an event listener for further functionality here if needed
-                              button.addEventListener("click", () => {
-                              computerList.innerHTML = "";
 
-                              displayComputers(clientName, location.name); //when a location is clicked display the devices. 
-                              currLocation = location.name;
+                              const locationClick = (client) => {
+                                return () => {
+                                    const url = `../../devices.html?clientName=${client}&location=${location.name}`;
+                                    window.location.href = url;
+                                }
+                              }
 
-                              
-                              })
+                            //   button.addEventListener("click", () => {
+                            //   computerList.innerHTML = "";
+
+                            //   displayComputers(clientName, location.name); //when a location is clicked display the devices. 
+                            //   currLocation = location.name;
+
+                            // })
+
+                            button.addEventListener("click", locationClick(clientName));
                               listItem.appendChild(button);
                               locationList.appendChild(listItem);
                               
@@ -111,18 +118,3 @@ export const displayLocation = (key, clientName2) => {
       });
 
 };
-
-// const locationInput = document.getElementById('location');
-
-
-// addLocationButton.addEventListener("click", () => {
-  
-  
-//   const locationName = locationInput.value.trim();
-//   console.log("LOCATION INPUT IS " + locationInput);
-
-//     addLocation(currentClient, locationName);
-
-// }
-
-// );

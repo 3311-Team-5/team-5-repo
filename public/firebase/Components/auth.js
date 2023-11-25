@@ -71,7 +71,6 @@ const login = async () => {
 };
 
 export const logout = async () => {
-    console.log("INSIDE LOGOUT!!!!");
     // const user = auth.currentUser;
     // if(user)
     // {

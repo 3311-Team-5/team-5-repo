@@ -22,7 +22,7 @@
                     </div>
                     <ul class="nav navbar-nav">
                       <li id="back"><a href="../../index.html">Back</a></li>
-                      <!-- <li id="signOut"><button id="signOutButton">Sign Out</button></li> -->
+                      <li id="home"><a href="../../index.html">Home</a></li>
                     </ul>
                   </div>
                 </nav>
@@ -47,21 +47,15 @@
             <script type="module">
                 import { addLocation, displayLocation } from './firebase/Components/location.js';
                 const locationList = document.getElementById("Location-List");
-                // const computerList = document.getElementById("comp-List");
 
                 let currentClient = "";
-                let currLocation = "";
 
                 document.addEventListener("DOMContentLoaded", async () => {
                     const params = new URLSearchParams(window.location.search);
-                    const key = params.get("key");
                     const clientName = params.get("clientName");
 
-                    // const clientDetails = await getClientDetails(key, clientName);
-
                     locationList.innerHTML = "";
-                    // computerList.innerHTML = "";
-                    displayLocation(key, clientName);
+                    displayLocation(clientName);
                     currentClient = clientName;
                 });
 

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techlog</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="module" src="firebase/Components/auth.js"></script>
+    <script type="module" src="firebase/Components/firebase.js"></script>
+    <script type="module" src="firebase/Components/location.js"></script>
+    <link rel="stylesheet" type="text/css" href="smallUIFixes copy.css">
+  </head>
+  <body>
+    <div>
+        <div>
+            <div id="card-nav">
+                <nav class="navbar navbar-default">
+                  <div class="container-fluid">
+                    <div class="navbar-header">
+                      <a class="navbar-brand">WebSiteName</a> 
+                      <!-- PUT LOGO HERE^^^^^^^^^^^^^^^ -->
+                    </div>
+                    <ul class="nav navbar-nav">
+                      <li><a id="back">Back</a></li>
+                      <li id="home"><a href="../../index.html">Home</a></li>
+                    </ul>
+                  </div>
+                </nav>
+            </div>
+
+            <div id="computer_page">
+                <br><br>
+                <!--h4>Computers:</h4-->
+                <h4 style="color: #FFFFFF; background-color: black;">Computers:</h4>
+        
+                <ul id="comp-List" class="comp-List"></ul>
+                <br><br>
+        
+                <label for="computer">Computer: </label>
+                <input type="text" placeholder="Computer Name" id="computer">
+                <br><br>
+        
+                <button id="addComputerButton">Add Computer</button>
+        
+                <br><br>
+            </div>
+            <script type="module">
+                import { addComputer, displayComputers } from './firebase/Components/device.js';
+                const computerList = document.getElementById("comp-List");
+                let currLocation = "";
+                let currClient = "";
+                let backTag = document.getElementById('back');
+
+                document.addEventListener("DOMContentLoaded", async () => {
+                    const params = new URLSearchParams(window.location.search);
+                    const clientName = params.get("clientName");
+                    const location = params.get("location");
+
+                    computerList.innerHTML = "";
+                    displayComputers(clientName,location);
+                    currClient = clientName;
+                    currLocation = location;
+    
+                    //SETS THE BACK TAG HREF
+                    backTag.href = `../../location.html?clientName=${currClient}`;
+                });
+
+                addComputerButton.addEventListener('click', () => {
+                    const computerName = document.querySelector("#computer").value;
+                    addComputer(currClient, currLocation, computerName);
+                });
+            </script>
+        </div>
+    </div>
+  </body>
+</html>

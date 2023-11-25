@@ -1,18 +1,18 @@
 import { app } from './firebase.js';
-import { addLocation, displayLocation } from './location.js';
-import { addComputer, displayComputers } from './device.js';
+// import { addLocation, displayLocation } from './location.js';
+// import { addComputer, displayComputers } from './device.js';
 import { getDatabase, ref, set, push, get, child } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
 
 const db = getDatabase(app);
 
 const clientList = document.getElementById("Client-List");
-const computerList = document.getElementById("comp-List");
-const locationList = document.getElementById("Location-List");
+// const computerList = document.getElementById("comp-List");
+// const locationList = document.getElementById("Location-List");
 const goButton = document.getElementById('Go!');
 
 let computerName = "";
-let currentClient = "";
-let currLocation = "";
+// let currentClient = "";
+// let currLocation = "";
 
 const resultList = document.getElementById("Result-List");
 
@@ -86,7 +86,7 @@ const displayClients = () => {
 
               const clientClick = (client) => {
                 return () => {
-                    const url = `../../location.html?key=${uid}&clientName=${client}`;
+                    const url = `../../location.html?clientName=${client}`;
                     window.location.href = url;
                 }
               }
@@ -154,18 +154,6 @@ const addClient = () => {
 
 const addClientButton = document.getElementById("addClientButton");
 addClientButton.addEventListener('click', addClient);
-const addComputerButton = document.getElementById("addComputerButton");
-
-const locationInput = document.getElementById('location');
-
-addComputerButton.addEventListener('click', () => {
-
-
-    const computerName = document.querySelector("#computer").value;
-    addComputer(currentClient, currLocation, computerName);
-
-});
-
 
 const searchInput = document.getElementById('Search');
 goButton.addEventListener("click", () => {

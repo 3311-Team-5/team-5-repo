@@ -73,10 +73,10 @@ export const addComputer = (currentClient2, currLocation2, computerName2) => {
       });
 };
 
-export const displayComputers = (clientName2,locationName ) => {
-  const dbRef = getDatabase(app);
-
-  get(ref(dbRef, "clients/"))
+export const displayComputers = (clientName2,locationName) => {
+  // const dbRef = getDatabase(app);
+  const dbRef = ref(getDatabase());
+  get(child(dbRef, "clients/"))
       .then((snapshot) => {
           const clientsData = snapshot.val();
           computerList.innerHTML = ""; // Clear the computer list
@@ -89,40 +89,38 @@ export const displayComputers = (clientName2,locationName ) => {
               if (clientsData[key].locations) {
                   for (const locationKey in clientsData[key].locations) {
                       const location = clientsData[key].locations[locationKey];
-                      console.log(location);
+                      // console.log(location);
 
-
-                      
-                      
                       if(location.name == locationName){
-                      // Check if the location has computers
-                      if (location.computers) {
+                        // Check if the location has computers
+                        if (location.computers) {
                           const clientHeading = document.createElement("h5");
-                      clientHeading.textContent = `Client: ${clientName}`;
-                      computerList.appendChild(clientHeading);
-                          for (const computerKey in location.computers) {
-                            const cKey = computerKey;
-                            const computer = location.computers[computerKey];
-                              const computerName = computer.name;
+                          clientHeading.textContent = `Client: ${clientName}`;
+                          computerList.appendChild(clientHeading);
+                            for (const computerKey in location.computers) {
+                              const cKey = computerKey;
+                              const computer = location.computers[computerKey];
+                                const computerName = computer.name;
 
-                              const listItem = document.createElement("li");
-                              const button = document.createElement("button");
-                              button.textContent = `Client: ${clientName}, Location: ${location.name}, Computer: ${computerName}`;
-                              
-                              // Use a function to capture the correct computerKey
-                              const clickHandler = (computerKey) => {
-                                  return () => {
-                                      const url = `../../card.html?key=${key}&lkey=${locationKey}&ckey=${cKey}&client=${clientName}&location=${location.name}&computer=${computerName}`; // ADDED UNIQUE KEY AND LOCATION KEY TO URL
-                                      window.location.href = url;
-                                  };
-                              };
-                              
-                              button.addEventListener("click", clickHandler(computerName));
+                                const listItem = document.createElement("li");
+                                const button = document.createElement("button");
+                                button.textContent = `Client: ${clientName}, Location: ${location.name}, Computer: ${computerName}`;
+                                
+                                // Use a function to capture the correct computerKey
+                                const clickHandler = (computerKey) => {
+                                    return () => {
+                                        const url = `../../card.html?key=${key}&lkey=${locationKey}&ckey=${cKey}&client=${clientName}&location=${location.name}&computer=${computerName}`; // ADDED UNIQUE KEY AND LOCATION KEY TO URL
+                                        window.location.href = url;
+                                    };
+                                };
+                                
+                                button.addEventListener("click", clickHandler(computerName));
 
-                              listItem.appendChild(button);
-                              computerList.appendChild(listItem);
-                          }
-                      }}
+                                listItem.appendChild(button);
+                                computerList.appendChild(listItem);
+                            }
+                        }
+                      }
                   
                   }
               }}
