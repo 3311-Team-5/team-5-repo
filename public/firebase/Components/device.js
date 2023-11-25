@@ -20,10 +20,18 @@ export const addComputer = (currentClient2, currLocation2, computerName2) => {
     //  return;
     //}
     
-    const cpu = prompt("Enter CPU:");
-    const ram = prompt("Enter RAM:");
-    const computerType = prompt("Enter Computer Type:");
+    //const cname = prompt("Enter Computer Name:");
+    const computerType = prompt("Enter Laptop/Desktop:");
     const model = prompt("Enter Model:");
+    const cpu = prompt("Enter CPU:");
+    const ram = prompt("Enter RAM (in GB):");
+    const storageType = prompt("Enter Storage Type:");
+    const storageAmt = prompt("Enter Storage Amount (in GB):");
+    const wKey = prompt("Enter Windows Key:");
+    const oKey = prompt("Enter Office Key:");
+    const username = prompt("Enter Username:");
+    const notes = "";
+    const history = "";
 
     const db = getDatabase(app);
   
@@ -51,8 +59,13 @@ export const addComputer = (currentClient2, currLocation2, computerName2) => {
               ram: ram,
               computerType: computerType,
               model: model,
-              // Other properties specific to the computer
-              // POTENTIALLY ADD COMPUTER ATTRIBUTES HERE
+              storageType: storageType,
+              storageAmt: storageAmt,
+              windowsKey: wKey,
+              officeKey: oKey,
+              username: username,
+              notes: notes,
+              history: history,
             })
               .then(() => {
                 // Computer added successfully
@@ -175,6 +188,13 @@ export const getComputerDetails = (clientName, locationName, computerName) => {
               ram: computerDetails.ram || "",
               computerType: computerDetails.computerType || "",
               model: computerDetails.model || "",
+              storageType: computerDetails.storageType || "",
+              storageAmt: computerDetails.storageAmt || "",
+              windowsKey: computerDetails.windowsKey || "",
+              officeKey: computerDetails.officeKey || "",
+              username: computerDetails.username || "",
+              notes: computerDetails.notes || "",
+              history: computerDetails.history || "",
             });
           } else {
             console.error("Computer details not found");
@@ -195,7 +215,7 @@ export const getComputerDetails = (clientName, locationName, computerName) => {
   });
 };
 
-export const saveUpdate = (key, lkey, ckey, cpu, ram, computerType, model) => {
+export const saveUpdate = (key, lkey, ckey, cpu, ram, computerType, model, storageType, storageAmt, windowsKey, officeKey, username, computerName, notes, history) => {
   const db = getDatabase(app);
 
   // Implement logic to update the database with the new values
@@ -204,6 +224,14 @@ export const saveUpdate = (key, lkey, ckey, cpu, ram, computerType, model) => {
     ram: ram,
     computerType: computerType,
     model: model,
+    storageType: storageType,
+    storageAmt: storageAmt,
+    windowsKey: windowsKey,
+    officeKey: officeKey,
+    username: username,
+    computerName: computerName,
+    notes: notes,
+    history: history,
   };
 
   // Implement the function to update the database with the new values
@@ -213,4 +241,4 @@ export const saveUpdate = (key, lkey, ckey, cpu, ram, computerType, model) => {
   const newKey = ref(db, `clients/${key}/locations/${lkey}/computers/${ckey}`);
 
   update(newKey, updatedDetails);
-}
+};

@@ -4,7 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Techlog</title>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <style>
+      #notes {
+        width: 25%;
+        height: 200px;
+        resize: vertical;
+      }
+    </style>
+    <style>
+      #history {
+        width: 40%;
+        height: 300px;
+        resize: vertical;
+      }
+    </style>
     <script type="module" src="firebase/Components/firebase.js"></script>
     <script type="module" src="firebase/Components/auth.js"></script>
     <script type="module" src="firebase/Components/device.js"></script>
@@ -29,10 +42,18 @@
 
       <div id="computerAttributes">
         <!-- Display computer attributes here -->
-        <p>CPU: <input type="text" id="cpu" ></p>
-        <p>RAM: <input type="text" id="ram" ></p>
-        <p>Computer Type: <input type="text" id="computerType" ></p>
+        <p>Computer Name: <input type="text" id="cname" ></p> 
+        <p>Laptop/Desktop: <input type="text" id="computerType" ></p>
         <p>Model: <input type="text" id="model" ></p>
+        <p>CPU: <input type="text" id="cpu" ></p>
+        <p>RAM (gb): <input type="text" id="ram" ></p>
+        <p>Storage Type: <input type="text" id="storagetype" ></p>
+        <p>Storage Amount (gb): <input type="text" id="storageamt" ></p>
+        <p>Windows Key: <input type="text" id="windowsKey" ></p>
+        <p>Office Key: <input type="text" id="officeKey" ></p>
+        <p>Username: <input type="text" id="username" ></p>
+        <p>Notes: <br><textarea id="notes"></textarea></p>
+        <p>Work History: <br><textarea id="history"></textarea></p>
       </div>
 
       <button id="editButton">Edit</button>
@@ -54,14 +75,16 @@
           const params = new URLSearchParams(window.location.search);
           const key = params.get("key");
           const locationKey = params.get("lkey");
-          const computerKey = params.get("ckey");
           const clientName = params.get("client");
           const locationName = params.get("location");
           const computerName = params.get("computer");
+          const computerKey = params.get("ckey");
+          const notes = params.get("notes");
+          const history = params.get("history");
 
           //SET BACK HREF FOR THE A TAG
           backTag.href = `../../devices.html?clientName=${clientName}&location=${locationName}`;
-      
+
           console.log("Values passed into function: ", clientName, locationName, computerName);
           // Use the extracted information to fetch and display computer details
           const computerDetails = await getComputerDetails(clientName, locationName, computerName);
@@ -73,6 +96,16 @@
             const ramElement = document.getElementById("ram");
             const computerTypeElement = document.getElementById("computerType");
             const modelElement = document.getElementById("model");
+            const storageTypeElement = document.getElementById("storagetype");
+            const storageAmtElement = document.getElementById("storageamt");
+            const wKeyElement = document.getElementById("windowsKey");
+            const oKeyElement = document.getElementById("officeKey");
+            const usernameElement = document.getElementById("username");
+            const computerNameElement = document.getElementById("cname");
+            const notesElement = document.getElementById("notes");
+            const historyElement = document.getElementById("history");
+
+            //do we need these to be const??
             const editButton = document.getElementById("editButton");
             const saveButton = document.getElementById("saveButton");
       
@@ -81,16 +114,36 @@
             ramElement.value = computerDetails.ram;
             computerTypeElement.value = computerDetails.computerType;
             modelElement.value = computerDetails.model;
+            storageTypeElement.value = computerDetails.storageType;
+            storageAmtElement.value = computerDetails.storageAmt;
+            wKeyElement.value = computerDetails.windowsKey;
+            oKeyElement.value = computerDetails.officeKey;
+            usernameElement.value = computerDetails.username;
+            computerNameElement.value = computerName;
+            notesElement.value = computerDetails.notes;
+            historyElement.value = computerDetails.history;
       
             // Function to toggle edit mode
             const toggleEditMode = () => {
+              console.log("CPU READ is " + cpuElement.readOnly);
+              console.log("RAM READ is " + ramElement.readOnly);
+              console.log("COMPUTER TYPE READ is " + computerTypeElement.readOnly);
+              console.log("MODEL READ is " + modelElement.readOnly);
 
               const isEditing = cpuElement.readOnly;
-              // Works backwards for some reason, doesn't work without the !
+              
               cpuElement.readOnly = !isEditing;
               ramElement.readOnly = !isEditing;
               computerTypeElement.readOnly = !isEditing;
               modelElement.readOnly = !isEditing;
+              storageTypeElement.readOnly = !isEditing;
+              storageAmtElement.readOnly = !isEditing;
+              wKeyElement.readOnly = !isEditing;
+              oKeyElement.readOnly = !isEditing;
+              usernameElement.readOnly = !isEditing;
+              computerNameElement.readOnly = !isEditing;
+              notesElement.readOnly = !isEditing;
+              historyElement.readOnly = !isEditing;
       
               // Show/hide the "Save" and "Cancel" buttons based on the edit mode
               saveButton.style.display = isEditing ? "block" : "none";
@@ -100,9 +153,20 @@
             editButton.addEventListener("click", toggleEditMode);
     
             saveButton.addEventListener("click", async () => {
-              
-              saveUpdate(key, locationKey, computerKey, cpuElement.value, ramElement.value, computerTypeElement.value, modelElement.value);
+              // Implement logic to update the database with the new values
+              saveUpdate(key, locationKey, computerKey, cpuElement.value, ramElement.value, computerTypeElement.value, modelElement.value, storageTypeElement.value, storageAmtElement.value, wKeyElement.value, oKeyElement.value, usernameElement.value, computerNameElement.value, notesElement.value, historyElement.value);
 
+              const updatedDetails = {
+                cpu: cpuElement.value,
+                ram: ramElement.value,
+                computerType: computerTypeElement.value,
+                model: modelElement.value,
+              };
+      
+              // Implement the function to update the database with the new values
+              // For now, logs the updated details
+              console.log("Updated Details:", updatedDetails);
+      
               // Toggle back to read-only mode
               toggleEditMode();
             });
