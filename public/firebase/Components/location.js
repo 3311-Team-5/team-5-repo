@@ -43,8 +43,8 @@ export const addLocation = (clientName, locationName) => {
         })
           .then(() => {
             // Location added successfully
-            alert(`Location "${locationName}" added for client "${clientName}"`);
-
+            // alert(`Location "${locationName}" added for client "${clientName}"`);
+            displayLocation(clientName);
             
           })
           .catch((error) => {

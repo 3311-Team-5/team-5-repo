@@ -21,15 +21,28 @@ export const addComputer = (currentClient2, currLocation2, computerName2) => {
     //}
     
     //const cname = prompt("Enter Computer Name:");
-    const computerType = prompt("Enter Laptop/Desktop:");
-    const model = prompt("Enter Model:");
-    const cpu = prompt("Enter CPU:");
-    const ram = prompt("Enter RAM (in GB):");
-    const storageType = prompt("Enter Storage Type:");
-    const storageAmt = prompt("Enter Storage Amount (in GB):");
-    const wKey = prompt("Enter Windows Key:");
-    const oKey = prompt("Enter Office Key:");
-    const username = prompt("Enter Username:");
+    // const computerType = prompt("Enter Laptop/Desktop:");
+    // const model = prompt("Enter Model:");
+    // const cpu = prompt("Enter CPU:");
+    // const ram = prompt("Enter RAM (in GB):");
+    // const storageType = prompt("Enter Storage Type:");
+    // const storageAmt = prompt("Enter Storage Amount (in GB):");
+    // const wKey = prompt("Enter Windows Key:");
+    // const oKey = prompt("Enter Office Key:");
+    // const username = prompt("Enter Username:");
+    // const notes = "";
+    // const history = "";
+
+    //const cname = prompt("Enter Computer Name:");
+    const computerType = ""; //prompt("Enter Laptop/Desktop:");
+    const model = ""; //prompt("Enter Model:");
+    const cpu =  "";//prompt("Enter CPU:");
+    const ram =  "";//prompt("Enter RAM (in GB):");
+    const storageType =  "";//prompt("Enter Storage Type:");
+    const storageAmt =  "";//prompt("Enter Storage Amount (in GB):");
+    const wKey = ""; //prompt("Enter Windows Key:");
+    const oKey =  "";//prompt("Enter Office Key:");
+    const username =  "";//prompt("Enter Username:");
     const notes = "";
     const history = "";
 
@@ -69,7 +82,8 @@ export const addComputer = (currentClient2, currLocation2, computerName2) => {
             })
               .then(() => {
                 // Computer added successfully
-                alert(`Computer "${computerName}" added for location "${locationName}" and client "${clientName}"`);
+                // alert(`Computer "${computerName}" added for location "${locationName}" and client "${clientName}"`);
+                displayComputers(clientName, locationName);
               })
               .catch((error) => {
                 console.error(`Error adding computer: ${error}`);
