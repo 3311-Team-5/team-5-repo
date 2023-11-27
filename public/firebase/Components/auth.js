@@ -47,15 +47,18 @@ const signUp = async () => {
 const login = async () => {
     const email = userEmail.value;
     const password = userPassword.value;
+    const inSignButton = document.querySelector('#signInButton');
 
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => { // SIGN IN SUCCESSFUL
         const user = userCredential.user;
         console.log(user);
-        alert("User "+ email +" has been signed in");
+        //alert("User "+ email +" has been signed in");
     })
     .catch((error) => { // ON ERROR, ALERT MESSAGE TO USER
-        const errorCode = error.code;
+        
+        document.getElementById('login-error').innerText = "Invalid user or pass";
+        /*const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode + " " + errorMessage);
         if(errorMessage.localeCompare("Firebase: Error (auth/invalid-login-credentials).") == 0)
@@ -66,7 +69,7 @@ const login = async () => {
         {
             alert("Invalid email address\nPlease try again");
 
-        }
+        }*/
     })
 };
 
