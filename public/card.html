@@ -1,186 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Techlog</title>
+    <title>TechLog</title>
+    <link rel="icon" href="/TechLog LOGO.png" type="image/x-icon">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <style>
-      #notes {
-        width: 25%;
-        height: 200px;
-        resize: vertical;
-      }
-    </style>
-    <style>
-      #history {
-        width: 40%;
-        height: 300px;
-        resize: vertical;
-      }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            height: 100vh;
+        }
+
+    
+
+        h3 {
+            color: #333;
+            text-align: center;
+        }
+
+        #card-nav {
+            background-color: #15b6b6;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+        }
+
+        .navbar-brand,
+        .navbar-nav li a {
+            color: #fff !important;
+        }
+
+        #computerAttributes {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+        }
+
+
+        #computerAttributes p {
+            margin: 0;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #269f9f;
+        }
+
+
+        #computerAttributes textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+            resize: vertical;
+            
+        }
+
+        #computerAttributes textarea:focus {
+            border-color: #269f9f;
+        }
+
+        #history {
+            grid-column: span 2;
+        }
+
+        button, #card-nav li a, #back a {
+            background-color: #269f9f;
+            color: white;
+            padding: 7px 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            outline: none;
+            display: inline-block;
+            text-decoration: none;
+            margin: 0;
+            margin-top: 5px;
+        }
+
+        button:hover, #card-nav li a:hover, #back a:hover {
+            background-color: #003838;
+        }
+
+        #saveButton {
+            display: none;
+        }
+
+        /* Remove bullet points from list */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
     </style>
     <script type="module" src="firebase/Components/firebase.js"></script>
     <script type="module" src="firebase/Components/auth.js"></script>
     <script type="module" src="firebase/Components/device.js"></script>
-  </head>
-  <body>
+</head>
+
+<body>
     <div id="cards">
-      <h3>CARD PAGE</h3>
-      <div id="card-nav">
-        <nav class="navbar navbar-default">
-          <div class="container-fluid">
-            <div class="navbar-header">
-              <a class="navbar-brand">WebSiteName</a> 
-              <!-- PUT LOGO HERE^^^^^^^^^^^^^^^ -->
+        <h3></h3>
+        <div id="card-nav">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand"></a>
+                        <!-- PUT LOGO HERE^^^^^^^^^^^^^^^ -->
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li id="back"><a href="javascript:history.back()">Back</a></li>
+                        <li id="home"><a href="../../index.html">Home</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <ul id="Path-List" class="Path-List"></ul>
+        <div id="computerAttributes">
+            <!-- Display computer attributes here -->
+            
+            <div>
+                <p>Computer Name: <input type="text" id="cname" ></p>
+                <p>Laptop/Desktop: <input type="text" id="computerType" ></p>
+                <p>Model: <input type="text" id="model" ></p>
+                <p>CPU: <input type="text" id="cpu" ></p>
+                <p>RAM (gb): <input type="text" id="ram" ></p>
             </div>
-            <ul class="nav navbar-nav">
-              <li><a id="back">Back</a></li>
-              <li id="home"><a href="../../index.html">Home</a></li>
-            </ul>
-          </div>
-        </nav>
-      </div>
+            <div>
+               
+                <p>Storage Type: <input type="text" id="storagetype"></p>
+                <p>Storage Amount (gb): <input type="text" id="storageamt" ></p>
+                <p>Windows Key: <input type="text" id="windowsKey" ></p>
+                <p>Office Key: <input type="text" id="officeKey" ></p>
+                <p>Username: <input type="text" id="username" ></p>
+            </div>
+            <div>
+                <p>Notes: <br><textarea id="notes"  rows="8"></textarea></p>
+            </div>
+            <div>
+                <p>Work History: <br><textarea id="history"  rows="8"></textarea></p>
+            </div>
+        </div>
+        
+        <button id="editButton">Edit</button>
+        <button id="saveButton">Save</button>
+        <!--button id="homeButton">Back to Home</button-->
 
-      <div id="computerAttributes">
-        <!-- Display computer attributes here -->
-        <p>Computer Name: <input type="text" id="cname" ></p> 
-        <p>Laptop/Desktop: <input type="text" id="computerType" ></p>
-        <p>Model: <input type="text" id="model" ></p>
-        <p>CPU: <input type="text" id="cpu" ></p>
-        <p>RAM (gb): <input type="text" id="ram" ></p>
-        <p>Storage Type: <input type="text" id="storagetype" ></p>
-        <p>Storage Amount (gb): <input type="text" id="storageamt" ></p>
-        <p>Windows Key: <input type="text" id="windowsKey" ></p>
-        <p>Office Key: <input type="text" id="officeKey" ></p>
-        <p>Username: <input type="text" id="username" ></p>
-        <p>Notes: <br><textarea id="notes"></textarea></p>
-        <p>Work History: <br><textarea id="history"></textarea></p>
-      </div>
+        <script type="module">
+            import { getComputerDetails, saveUpdate } from './firebase/Components/device.js';
 
-      <button id="editButton">Edit</button>
-      <button id="saveButton" style="display: none;">Save</button>
-      <button id="homeButton">Back to Home</button>
+            // Add event listener for the "Back to Home" button
+            /*const homeButton = document.getElementById("homeButton");
+            homeButton.addEventListener("click", () => {
+                window.location.href = "../../index.html";
+            });*/
 
-      <script type="module">
-        import { getComputerDetails, saveUpdate } from './firebase/Components/device.js';
+            let backTag = document.getElementById('back');
 
-        console.log("CARD IS BEING HIT!!!!");
-      
-        // Add event listener for the "Back to Home" button
-        const homeButton = document.getElementById("homeButton");
-        homeButton.addEventListener("click", () => {
-          window.location.href = "../../index.html";
-        });
+            document.addEventListener("DOMContentLoaded", async () => {
+                const params = new URLSearchParams(window.location.search);
+                const key = params.get("key");
+                const locationKey = params.get("lkey");
+                const clientName = params.get("client");
+                const locationName = params.get("location");
+                const computerName = params.get("computer");
+                const computerKey = params.get("ckey");
+                const notes = params.get("notes");
+                const history = params.get("history");
 
-        let backTag = document.getElementById('back');
-      
-        document.addEventListener("DOMContentLoaded", async () => {
-          const params = new URLSearchParams(window.location.search);
-          const key = params.get("key");
-          const locationKey = params.get("lkey");
-          const clientName = params.get("client");
-          const locationName = params.get("location");
-          const computerName = params.get("computer");
-          const computerKey = params.get("ckey");
-          const notes = params.get("notes");
-          const history = params.get("history");
+                //SET BACK HREF FOR THE A TAG
+                backTag.href = `../../devices.html?clientName=${clientName}&location=${locationName}`;
 
-          //SET BACK HREF FOR THE A TAG
-          backTag.href = `../../devices.html?clientName=${clientName}&location=${locationName}`;
+                console.log("Values passed into function: ", clientName, locationName, computerName);
+                // Use the extracted information to fetch and display computer details
+                const computerDetails = await getComputerDetails(clientName, locationName, computerName);
+                console.log("Computer Details(in card.html):", computerDetails);
 
-          console.log("Values passed into function: ", clientName, locationName, computerName);
-          // Use the extracted information to fetch and display computer details
-          const computerDetails = await getComputerDetails(clientName, locationName, computerName);
-          console.log("Computer Details(in card.html):", computerDetails);
-      
-          // Display computer attributes on the page
-          if (computerDetails) {
-            const cpuElement = document.getElementById("cpu");
-            const ramElement = document.getElementById("ram");
-            const computerTypeElement = document.getElementById("computerType");
-            const modelElement = document.getElementById("model");
-            const storageTypeElement = document.getElementById("storagetype");
-            const storageAmtElement = document.getElementById("storageamt");
-            const wKeyElement = document.getElementById("windowsKey");
-            const oKeyElement = document.getElementById("officeKey");
-            const usernameElement = document.getElementById("username");
-            const computerNameElement = document.getElementById("cname");
-            const notesElement = document.getElementById("notes");
-            const historyElement = document.getElementById("history");
+                // Display computer attributes on the page
+                if (computerDetails) {
+                    const cpuElement = document.getElementById("cpu");
+                    const ramElement = document.getElementById("ram");
+                    const computerTypeElement = document.getElementById("computerType");
+                    const modelElement = document.getElementById("model");
+                    const storageTypeElement = document.getElementById("storagetype");
+                    const storageAmtElement = document.getElementById("storageamt");
+                    const wKeyElement = document.getElementById("windowsKey");
+                    const oKeyElement = document.getElementById("officeKey");
+                    const usernameElement = document.getElementById("username");
+                    const computerNameElement = document.getElementById("cname");
+                    const notesElement = document.getElementById("notes");
+                    const historyElement = document.getElementById("history");
 
-            //do we need these to be const??
-            const editButton = document.getElementById("editButton");
-            const saveButton = document.getElementById("saveButton");
-      
-            // Set initial values
-            cpuElement.value = computerDetails.cpu;
-            ramElement.value = computerDetails.ram;
-            computerTypeElement.value = computerDetails.computerType;
-            modelElement.value = computerDetails.model;
-            storageTypeElement.value = computerDetails.storageType;
-            storageAmtElement.value = computerDetails.storageAmt;
-            wKeyElement.value = computerDetails.windowsKey;
-            oKeyElement.value = computerDetails.officeKey;
-            usernameElement.value = computerDetails.username;
-            computerNameElement.value = computerName;
-            notesElement.value = computerDetails.notes;
-            historyElement.value = computerDetails.history;
-      
-            // Function to toggle edit mode
-            const toggleEditMode = () => {
-              console.log("CPU READ is " + cpuElement.readOnly);
-              console.log("RAM READ is " + ramElement.readOnly);
-              console.log("COMPUTER TYPE READ is " + computerTypeElement.readOnly);
-              console.log("MODEL READ is " + modelElement.readOnly);
+                    //do we need these to be const??
+                    const editButton = document.getElementById("editButton");
+                    const saveButton = document.getElementById("saveButton");
 
-              const isEditing = cpuElement.readOnly;
-              
-              cpuElement.readOnly = !isEditing;
-              ramElement.readOnly = !isEditing;
-              computerTypeElement.readOnly = !isEditing;
-              modelElement.readOnly = !isEditing;
-              storageTypeElement.readOnly = !isEditing;
-              storageAmtElement.readOnly = !isEditing;
-              wKeyElement.readOnly = !isEditing;
-              oKeyElement.readOnly = !isEditing;
-              usernameElement.readOnly = !isEditing;
-              computerNameElement.readOnly = !isEditing;
-              notesElement.readOnly = !isEditing;
-              historyElement.readOnly = !isEditing;
-      
-              // Show/hide the "Save" and "Cancel" buttons based on the edit mode
-              saveButton.style.display = isEditing ? "block" : "none";
-              editButton.innerText = isEditing ? "Cancel" : "Edit";
-            };
-      
-            editButton.addEventListener("click", toggleEditMode);
-    
-            saveButton.addEventListener("click", async () => {
-              // Implement logic to update the database with the new values
-              saveUpdate(key, locationKey, computerKey, cpuElement.value, ramElement.value, computerTypeElement.value, modelElement.value, storageTypeElement.value, storageAmtElement.value, wKeyElement.value, oKeyElement.value, usernameElement.value, computerNameElement.value, notesElement.value, historyElement.value);
+                    // Set initial values
+                    cpuElement.value = computerDetails.cpu;
+                    ramElement.value = computerDetails.ram;
+                    computerTypeElement.value = computerDetails.computerType;
+                    modelElement.value = computerDetails.model;
+                    storageTypeElement.value = computerDetails.storageType;
+                    storageAmtElement.value = computerDetails.storageAmt;
+                    wKeyElement.value = computerDetails.windowsKey;
+                    oKeyElement.value = computerDetails.officeKey;
+                    usernameElement.value = computerDetails.username;
+                    computerNameElement.value = computerName;
+                    notesElement.value = computerDetails.notes;
+                    historyElement.value = computerDetails.history;
 
-              const updatedDetails = {
-                cpu: cpuElement.value,
-                ram: ramElement.value,
-                computerType: computerTypeElement.value,
-                model: modelElement.value,
-              };
-      
-              // Implement the function to update the database with the new values
-              // For now, logs the updated details
-              console.log("Updated Details:", updatedDetails);
-      
-              // Toggle back to read-only mode
-              toggleEditMode();
+                    // Function to toggle edit mode
+                    const toggleEditMode = () => {
+                        console.log("CPU READ is " + cpuElement.readOnly);
+                        console.log("RAM READ is " + ramElement.readOnly);
+                        console.log("COMPUTER TYPE READ is " + computerTypeElement.readOnly);
+                        console.log("MODEL READ is " + modelElement.readOnly);
+
+                        const isEditing = cpuElement.readOnly;
+
+                        cpuElement.readOnly = !isEditing;
+                        ramElement.readOnly = !isEditing;
+                        computerTypeElement.readOnly = !isEditing;
+                        modelElement.readOnly = !isEditing;
+                        storageTypeElement.readOnly = !isEditing;
+                        storageAmtElement.readOnly = !isEditing;
+                        wKeyElement.readOnly = !isEditing;
+                        oKeyElement.readOnly = !isEditing;
+                        usernameElement.readOnly = !isEditing;
+                        computerNameElement.readOnly = !isEditing;
+                        notesElement.readOnly = !isEditing;
+                        historyElement.readOnly = !isEditing;
+
+                        // Show/hide the "Save" and "Cancel" buttons based on the edit mode
+                        saveButton.style.display = isEditing ? "block" : "none";
+                        editButton.innerText = isEditing ? "Cancel" : "Edit";
+                    };
+
+                    editButton.addEventListener("click", toggleEditMode);
+
+                    saveButton.addEventListener("click", async () => {
+                        // Implement logic to update the database with the new values
+                        saveUpdate(key, locationKey, computerKey, cpuElement.value, ramElement.value, computerTypeElement.value, modelElement.value, storageTypeElement.value, storageAmtElement.value, wKeyElement.value, oKeyElement.value, usernameElement.value, computerNameElement.value, notesElement.value, historyElement.value);
+
+                        const updatedDetails = {
+                            cpu: cpuElement.value,
+                            ram: ramElement.value,
+                            computerType: computerTypeElement.value,
+                            model: modelElement.value,
+                        };
+
+                        // Implement the function to update the database with the new values
+                        // For now, logs the updated details
+                        console.log("Updated Details:", updatedDetails);
+
+                        // Toggle back to read-only mode
+                        toggleEditMode();
+                    });
+
+                    // Initially set the form to read-only mode
+                    toggleEditMode();
+                } else {
+                    // Handle the case where computer details are not available
+                    console.error("Computer details not available");
+                }
+
             });
-      
-            // Initially set the form to read-only mode
-            toggleEditMode();
-          } else {
-            // Handle the case where computer details are not available
-            console.error("Computer details not available");
-          }
-        });
-      </script>
+
+        </script>
     </div>
-  </body>
+</body>
+
 </html>

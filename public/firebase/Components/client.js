@@ -140,7 +140,7 @@ const addClient = () => {
             })
             .then(() => {
                 displayClients();
-                alert("Client " + client + " has been added!");
+                //alert("Client " + client + " has been added!");
                 
             })
             .catch((error) => {

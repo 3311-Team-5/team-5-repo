@@ -1,88 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Techlog</title>
-      <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-      <script type="module" src="firebase/Components/firebase.js"></script>
-      <script type="module" src="firebase/Components/auth.js"></script>
-      <script type="module" src="firebase/Components/client.js"></script>
-      <script type="module" src="firebase/Components/location.js"></script>
-      <!-- <script type="module" src="firebase/Components/device.js"></script> -->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechLog</title>
+  <link rel="icon" href="/TechLog LOGO.png" type="image/x-icon">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script type="module" src="firebase/Components/firebase.js"></script>
+  <script type="module" src="firebase/Components/auth.js"></script>
+  <script type="module" src="firebase/Components/client.js"></script>
+  <script type="module" src="firebase/Components/location.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="smallUIFixes.css">
+  <link rel="stylesheet" type="text/css" href="smallUIFixes copy.css">
+  <link rel="stylesheet" type="text/css" href="smallUIFixes copy 2.css">
+  <link rel="stylesheet" type="text/css" href="smallUIFixes copy 3.css">
+
+  <style>
+    body {
       
-      <link rel="stylesheet" type="text/css" href="smallUIFixes.css">
-      <link rel="stylesheet" type="text/css" href="smallUIFixes copy.css">
-      <link rel="stylesheet" type="text/css" href="smallUIFixes copy 2.css">  
-      <link rel="stylesheet" type="text/css" href="smallUIFixes copy 3.css"> 
-  </head>
-  <body>
-    <div id="app">
-      <div id="login-container">
-        <h2>Login</h2>
-        <label for="userEmail">Email: </label>
-        <input type="email" placeholder="Email" id="userEmail">
-        <br><br>
-        <label for="userPassword">Password: </label>
-        <input type="password" placeholder="Password" id="userPassword">
-        <br><br>
-        <!-- <button id="signUpButton">Sign Up</button> -->
-        <button id="signInButton">Sign In</button> 
-      </div>
-      <div id="authenticated-container" style="display: none;">
-        <nav class="navbar navbar-default">
-          <div class="container-fluid">
-            <div class="navbar-header">
-              <a class="navbar-brand">WebSiteName</a> 
-              <!-- PUT LOGO HERE^^^^^^^^^^^^^^^ -->
-            </div>
-            <ul class="nav navbar-nav">
-              <!-- ADD SEARCH FUNCTION HERE -->
-              <li id="signOut"><button id="signOutButton">Sign Out</button></li>
-            </ul>
-          </div>
-        </nav>
+      font-family: 'Arial', sans-serif;
+      background-color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: space-around;
+      justify-content: space-around;
+      height: 100vh;
+    }
 
-        
-        <h3 style="color: #FFFFFF; background-color: #3498db; font-size: 30px;"><strong><br>TechLog: Simplifying I.T. Organization!<br></strong></h3>
+   
 
 
+    h2,
+    h3,
+    h4 {
+      color: #333;
+    }
 
-        <br><br>
-        <label for="searchBar"> Quick LookUp: </label>
-        <input type="text" placeholder="Search" id= "Search">
+    label {
+      font-weight: bold;
+      color: #555;
+      display: block;
+      margin-bottom: 5px;
+    }
 
-        <button id="Go!">Go!</button>
-        
-        <br><br>
-        <label for="results">Results: </label>
+    input {
+      width: calc(100% - 16px);
+      padding: 8px;
+      margin: 6px 0;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
 
-        <ul id="Result-List" class="Result-List"></ul>
-          <br><br>
-        
+    .error-message,
+    .success-message {
+      margin-top: 5px;
+    }
 
+    .error-message {
+      color: red;
+    }
 
+    .success-message {
+      color: greenyellow;
+    }
 
-        <h4 style="color: #FFFFFF; background-color: black;">Clients:</h4>
+    button {
+      background-color: #269f9f;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-left: 9px;
+    }
 
-        <ul id="Client-List" class="Client-List"></ul>
-        <br><br>
-        <!-- ... Your authenticated content fields ... -->
-        <!-- <label for="searchBox">Search: </label>
-        <input type="search" placeholder="Search for Client" id="searchBox">
-        <br><br> -->
-        
-        <label for="client">Client: </label>
-        <input type="text" placeholder="Client Name" id="client">
-        <br><br>
-        <!-- <label for="location">Location: </label>
-        <input type="text" placeholder="Location" id="location">
-        <br><br> -->
-        <button id="addClientButton">Add Client</button>
-        
-        <br><br>
+    button:hover {
+      background-color: #003838;
+    }
 
-      </div>
+    #authenticated-container {
+      display: none;
+    }
+
+    .navbar {
+      background-color: #15b6b6;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .container-fluid {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .navbar-brand {
+      color: #ffffff;
+      font-size: 24px;
+      text-decoration: none;
+    }
+
+    .navbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .navbar-nav>li>a,
+    .navbar-nav>li>button {
+      color: #ffffff;
+      font-size: 16px;
+      text-decoration: none;
+      border: none;
+      border-radius: 4px;
+      background-color: #269f9f;
+      padding: 10px 15px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .navbar-nav>li>a:hover,
+    .navbar-nav>li>button:hover {
+      background-color: #003838;
+    }
+
+    /* Additional Styles for Authenticated Container */
+    #authenticated-container {
+      display: none;
+      margin-top: 20px;
+    }
+
+    #authenticated-container h3 {
+      color: #FFFFFF;
+      background-color: #15b6b6;
+      font-size: 30px;
+      margin: 0;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      margin-top: px;
+    }
+
+    #authenticated-container label,
+    #authenticated-container button {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    #authenticated-container ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #authenticated-container h4 {
+      
+      color: #FFFFFF;
+      background-color: black;
+      font-size: 20px;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    #authenticated-container #Client-List {
+      margin: 0;
+      padding: 0;
+    }
+
+    #Client-List {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      
+    }
+
+    #Client-List li {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+      margin-right: 10px;
+      
+    }
+
+    #Client-List li button {
+      width: 100%;
+      background-color: #269f9f;
+      color: white;
+      padding: 10px 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      
+      
+    }
+    #authenticated-container {
+      text-align: center;
+    }
+
+    #Client-List li button:hover {
+      background-color: #003838;
+    }
+
+    #signOutButton {
+      background-color: #e74c3c;
+    }
+
+    #signOutButton:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- Login Container -->
+    <div id="login-container">
+      <h2>Login to TechLog</h2>
+      <label for="userEmail">Email: </label>
+      <input type="email" placeholder="Email" id="userEmail">
+      <br><br>
+      <label for="userPassword">Password: </label>
+      <input type="password" placeholder="Password" id="userPassword">
+      <br><br>
+      <!-- Error Message for Login -->
+      <div id="login-error" class="error-message"></div>
+      <br>
+      <button id="signInButton" onclick="signIn()">Sign In</button>
     </div>
-  </body>
+
+    <!-- Authenticated Container (Initially Hidden) -->
+    <div id="authenticated-container">
+      <h3>TechLog: Simplifying I.T. Organization</h3>
+
+      <label for="searchBar"> Quick LookUp: </label>
+      <input type="text" placeholder="Search" id="Search">
+      <button id="Go!">Go!</button>
+      <br><br>
+
+      <label for="results">Results: </label>
+      <ul id="Result-List" class="Result-List"></ul>
+      <br><br>
+
+      <h4>Clients:</h4>
+      <ul id="Client-List" class="Client-List"></ul>
+      <br><br>
+
+      <label for="client">Client: </label>
+      <input type="text" placeholder="Client Name" id="client">
+      <br><br>
+      <button id="addClientButton">Add Client</button>
+      <br><br>
+
+      <!-- Sign Out Button -->
+      <button id="signOutButton" onclick="signOut()">Sign Out</button>
+    </div>
+  </div>
+</body>
+
 </html>

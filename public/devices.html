@@ -1,76 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Techlog</title>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script type="module" src="firebase/Components/auth.js"></script>
-    <script type="module" src="firebase/Components/firebase.js"></script>
-    <script type="module" src="firebase/Components/location.js"></script>
-    <link rel="stylesheet" type="text/css" href="smallUIFixes copy 2.css">  
-  </head>
-  <body>
-    <div>
-        <div>
-            <div id="card-nav">
-                <nav class="navbar navbar-default">
-                  <div class="container-fluid">
-                    <div class="navbar-header">
-                      <a class="navbar-brand">WebSiteName</a> 
-                      <!-- PUT LOGO HERE^^^^^^^^^^^^^^^ -->
-                    </div>
-                    <ul class="nav navbar-nav">
-                      <li><a id="back">Back</a></li>
-                      <li id="home"><a href="../../index.html">Home</a></li>
-                    </ul>
-                  </div>
-                </nav>
-            </div>
 
-            <div id="computer_page">
-                <br><br>
-                <!--h4>Computers:</h4-->
-                <h4 style="color: #FFFFFF; background-color: black;">Computers:</h4>
-        
-                <ul id="comp-List" class="comp-List"></ul>
-                <br><br>
-        
-                <label for="computer">Computer: </label>
-                <input type="text" placeholder="Computer Name" id="computer">
-                <br><br>
-        
-                <button id="addComputerButton">Add Computer</button>
-        
-                <br><br>
-            </div>
-            <script type="module">
-                import { addComputer, displayComputers } from './firebase/Components/device.js';
-                const computerList = document.getElementById("comp-List");
-                let currLocation = "";
-                let currClient = "";
-                let backTag = document.getElementById('back');
-
-                document.addEventListener("DOMContentLoaded", async () => {
-                    const params = new URLSearchParams(window.location.search);
-                    const clientName = params.get("clientName");
-                    const location = params.get("location");
-
-                    computerList.innerHTML = "";
-                    displayComputers(clientName,location);
-                    currClient = clientName;
-                    currLocation = location;
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechLog</title>
+  <link rel="icon" href="/TechLog LOGO.png" type="image/x-icon">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script type="module" src="firebase/Components/auth.js"></script>
+  <script type="module" src="firebase/Components/firebase.js"></script>
+  <script type="module" src="firebase/Components/location.js"></script>
+  <link rel="stylesheet" type="text/css" href="smallUIFixes copy 2.css">
+  <style>
+    body {
     
-                    //SETS THE BACK TAG HREF
-                    backTag.href = `../../location.html?clientName=${currClient}`;
-                });
+      font-family: 'Arial', sans-serif;
+      background-color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: space-around;
+      justify-content: space-around;
+      height: 100vh;
+      
+    }
+    #card-container{
+      width:30%;
+    }
 
-                addComputerButton.addEventListener('click', () => {
-                    const computerName = document.querySelector("#computer").value;
-                    addComputer(currClient, currLocation, computerName);
-                });
-            </script>
+   
+
+    .navbar {
+      background-color: #15b6b6;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .container-fluid {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .navbar-brand {
+      color: #ffffff;
+      font-size: 24px;
+      text-decoration: none;
+    }
+
+    .navbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar-nav>li>a {
+      color: #ffffff;
+      font-size: 16px;
+      text-decoration: none;
+      border: none;
+      border-radius: 4px;
+      background-color: #269f9f;
+      padding: 10px 15px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .navbar-nav>li>a:hover {
+      background-color: #003838;
+    }
+
+    #computer_page {
+      text-align: center;
+    }
+
+    h4 {
+      color: #fff;
+      background-color: black;
+      font-size: 20px;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    #comp-List {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      margin-right: 22px;
+    }
+
+    #comp-List li {
+      margin-bottom: 30px;
+      margin-right: 10px;
+    }
+
+    #comp-List li button {
+      width: 100%;
+      background-color: #269f9f;
+      color: white;
+      padding: 10px x;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #comp-List li button:hover {
+      background-color: #003838;
+    }
+
+    label {
+      font-weight: bold;
+      color: #555;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: calc(100% - 16px);
+      padding: 8px;
+      margin: 6px 0;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #269f9f;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-left: 9px;
+    }
+
+    button:hover {
+      background-color: #003838;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="card-container">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand"></a>
+          <!-- PUT LOGO HERE^^^^^^^^^^^^^^^ -->
         </div>
+        <ul class="nav navbar-nav">
+          <li><a id="back">Back</a></li>
+          <li id="home"><a href="../../index.html">Home</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div id="computer_page">
+      <br><br>
+      <h4>Computers:</h4>
+
+      <ul id="comp-List" class="comp-List"></ul>
+      <br><br>
+
+      <label for="computer">Computer: </label>
+      <input type="text" placeholder="Computer Name" id="computer">
+      <br><br>
+
+      <button id="addComputerButton">Add Computer</button>
+
+      <br><br>
     </div>
-  </body>
+    <script type="module">
+      import { addComputer, displayComputers } from './firebase/Components/device.js';
+      const computerList = document.getElementById("comp-List");
+      let currLocation = "";
+      let currClient = "";
+      let backTag = document.getElementById('back');
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        const params = new URLSearchParams(window.location.search);
+        const clientName = params.get("clientName");
+        const location = params.get("location");
+
+        computerList.innerHTML = "";
+        displayComputers(clientName, location);
+        currClient = clientName;
+        currLocation = location;
+
+        // SETS THE BACK TAG HREF
+        backTag.href = `../../location.html?clientName=${currClient}`;
+      });
+
+      addComputerButton.addEventListener('click', () => {
+        const computerName = document.querySelector("#computer").value;
+        addComputer(currClient, currLocation, computerName);
+      });
+    </script>
+  </div>
+</body>
+
 </html>

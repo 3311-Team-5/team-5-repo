@@ -2,6 +2,7 @@ import { app } from './firebase.js';
 import { getDatabase, ref, set, push, get, child, update } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js';
 
 const computerList = document.getElementById("comp-List");
+const workingPathList = document.getElementById("Path-List");
 
 export const addComputer = (currentClient2, currLocation2, computerName2) => {
     const computerName = computerName2;
@@ -121,9 +122,11 @@ export const displayComputers = (clientName2,locationName) => {
                       if(location.name == locationName){
                         // Check if the location has computers
                         if (location.computers) {
+
                           const clientHeading = document.createElement("h5");
-                          clientHeading.textContent = `Client: ${clientName}`;
+                          clientHeading.textContent = `Client: ${clientName}, Location: ${locationName}`;
                           computerList.appendChild(clientHeading);
+
                             for (const computerKey in location.computers) {
                               const cKey = computerKey;
                               const computer = location.computers[computerKey];
@@ -131,7 +134,7 @@ export const displayComputers = (clientName2,locationName) => {
 
                                 const listItem = document.createElement("li");
                                 const button = document.createElement("button");
-                                button.textContent = `Client: ${clientName}, Location: ${location.name}, Computer: ${computerName}`;
+                                button.textContent = `Computer: ${computerName}`;
                                 
                                 // Use a function to capture the correct computerKey
                                 const clickHandler = (computerKey) => {
@@ -194,6 +197,10 @@ export const getComputerDetails = (clientName, locationName, computerName) => {
           // Use the computerKey to access the specific computer details
           const computerDetails = computerKey ? computersData[computerKey] : null;
 
+          const clientHeading = document.createElement("h5");
+                          clientHeading.textContent = `Client: ${clientName}, Location: ${locationName}`;
+                          workingPathList.appendChild(clientHeading);
+
           console.log("Computer Details:", computerDetails);
 
           if (computerDetails) {
@@ -243,7 +250,8 @@ export const saveUpdate = (key, lkey, ckey, cpu, ram, computerType, model, stora
     windowsKey: windowsKey,
     officeKey: officeKey,
     username: username,
-    computerName: computerName,
+    name: computerName,
+    
     notes: notes,
     history: history,
   };

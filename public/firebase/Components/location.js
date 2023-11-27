@@ -87,7 +87,7 @@ export const displayLocation = (clientName2) => {
 
                               const listItem = document.createElement("li");
                               const button = document.createElement("button");
-                              button.textContent = `Location: ${location.name}`;
+                              button.textContent = `${location.name}`;
                               //add an event listener for further functionality here if needed
 
                               const locationClick = (client) => {
