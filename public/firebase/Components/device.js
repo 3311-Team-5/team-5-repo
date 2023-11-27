@@ -243,7 +243,8 @@ export const saveUpdate = (key, lkey, ckey, cpu, ram, computerType, model, stora
     windowsKey: windowsKey,
     officeKey: officeKey,
     username: username,
-    computerName: computerName,
+    name: computerName,
+    
     notes: notes,
     history: history,
   };

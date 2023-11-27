@@ -79,7 +79,7 @@ export const logout = async () => {
     // {
         signOut(auth)
         .then(() => { // SIGN OUT SUCCESSFUL
-            alert("Sign out successful!");
+            //alert("Sign out successful!");
         })
         .catch(() => {
             const errorCode = error.code;
