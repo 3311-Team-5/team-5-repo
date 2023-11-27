@@ -131,7 +131,7 @@
                     </div>
                     <ul class="nav navbar-nav">
                         <li id="back"><a href="javascript:history.back()">Back</a></li>
-                        <!--<li id="home"><a href="../../index.html">Home</a></li>-->
+                        <li id="home"><a href="../../index.html">Home</a></li>
                     </ul>
                 </div>
             </nav>
@@ -140,39 +140,39 @@
         <div id="computerAttributes">
             <!-- Display computer attributes here -->
             <div>
-                <p>Computer Name: <input type="text" id="cname" readonly></p>
-                <p>Laptop/Desktop: <input type="text" id="computerType" readonly></p>
-                <p>Model: <input type="text" id="model" readonly></p>
-                <p>CPU: <input type="text" id="cpu" readonly></p>
-                <p>RAM (gb): <input type="text" id="ram" readonly></p>
+                <p>Computer Name: <input type="text" id="cname" ></p>
+                <p>Laptop/Desktop: <input type="text" id="computerType" ></p>
+                <p>Model: <input type="text" id="model" ></p>
+                <p>CPU: <input type="text" id="cpu" ></p>
+                <p>RAM (gb): <input type="text" id="ram" ></p>
             </div>
             <div>
-                <p>Storage Type: <input type="text" id="storagetype" readonly></p>
-                <p>Storage Amount (gb): <input type="text" id="storageamt" readonly></p>
-                <p>Windows Key: <input type="text" id="windowsKey" readonly></p>
-                <p>Office Key: <input type="text" id="officeKey" readonly></p>
-                <p>Username: <input type="text" id="username" readonly></p>
+                <p>Storage Type: <input type="text" id="storagetype"></p>
+                <p>Storage Amount (gb): <input type="text" id="storageamt" ></p>
+                <p>Windows Key: <input type="text" id="windowsKey" ></p>
+                <p>Office Key: <input type="text" id="officeKey" ></p>
+                <p>Username: <input type="text" id="username" ></p>
             </div>
             <div>
-                <p>Notes: <br><textarea id="notes" readonly rows="8"></textarea></p>
+                <p>Notes: <br><textarea id="notes"  rows="8"></textarea></p>
             </div>
             <div>
-                <p>Work History: <br><textarea id="history" readonly rows="8"></textarea></p>
+                <p>Work History: <br><textarea id="history"  rows="8"></textarea></p>
             </div>
         </div>
         
         <button id="editButton">Edit</button>
         <button id="saveButton">Save</button>
-        <button id="homeButton">Back to Home</button>
+        <!--button id="homeButton">Back to Home</button-->
 
         <script type="module">
             import { getComputerDetails, saveUpdate } from './firebase/Components/device.js';
 
             // Add event listener for the "Back to Home" button
-            const homeButton = document.getElementById("homeButton");
+            /*const homeButton = document.getElementById("homeButton");
             homeButton.addEventListener("click", () => {
                 window.location.href = "../../index.html";
-            });
+            });*/
 
             let backTag = document.getElementById('back');
 
