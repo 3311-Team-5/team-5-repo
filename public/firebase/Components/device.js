@@ -122,7 +122,7 @@ export const displayComputers = (clientName2,locationName) => {
                         // Check if the location has computers
                         if (location.computers) {
                           const clientHeading = document.createElement("h5");
-                          clientHeading.textContent = `Client: ${clientName}`;
+                          clientHeading.textContent = `Client: ${clientName}, Location: ${locationName}`;
                           computerList.appendChild(clientHeading);
                             for (const computerKey in location.computers) {
                               const cKey = computerKey;
@@ -131,7 +131,7 @@ export const displayComputers = (clientName2,locationName) => {
 
                                 const listItem = document.createElement("li");
                                 const button = document.createElement("button");
-                                button.textContent = `Client: ${clientName}, Location: ${location.name}, Computer: ${computerName}`;
+                                button.textContent = `Computer: ${computerName}`;
                                 
                                 // Use a function to capture the correct computerKey
                                 const clickHandler = (computerKey) => {
