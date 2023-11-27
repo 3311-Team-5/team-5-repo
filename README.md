@@ -21,3 +21,10 @@ Iteration 2:
 Iteration 3:
   - Adding locations for specific clients in the client list
   - Inserting a device name under a client name and their location
+
+Iteration 4:
+  - Added edit/save functionality for device attributes and notes
+  - Implemented a search bar for users to find devices easily
+  - Navigation bar
+  - Updated UI
+  - Split each list into their respective pages avoid constant scrolling
